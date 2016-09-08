@@ -12,48 +12,78 @@ class Spring extends PhysicalObjectBase
   { 
     this.m = 0; // no mass
     this.A = A; this.B = B; this.k = k; this.c = c;
-    this.l = B.d - A.d; this.cur_l = l;
+    
+    PVector temp = B.d.get(); temp.sub(A.d);
+    this.l = temp.mag();//B.d - A.d; 
+    this.cur_l = l;
   }
   
   void calculate() 
   {
     float last_l = cur_l;
-    cur_l = B.d - A.d; // current length of the spring
+    
+    PVector temp = B.d.get(); temp.sub(A.d);
+    cur_l = temp.mag();//B.d - A.d; // current length of the spring
+    
+    
+    // get the direction that the spring force should be applied
+    temp.normalize();
     
     // given a length calculate the force (Hook's Law)
-    float f = (cur_l - l) * k;  
+    PVector f = temp.get();
+    f.mult(  (cur_l - l) * k ); //f = (cur_l - l) * k;  
     
     // damping
-    v = last_l - cur_l;
-    f -= c * v;
+    //v = temp.get();
+    //v.mult( abs(last_l - cur_l) ); ////v = last_l - cur_l;
+    //v.mult(c)
+    //f.sub(v); //f -= c * v;
+    float vv = last_l - cur_l;
+    //temp = f.get();
+    //temp.normalize();
+    temp.mult( (c * vv * -1 ) );
+    //if (
+    f.add(temp);
+    //f.sub( (c * vv) );
+    //f.sub( (c * vv) );
     
-    A.F += f;
-    B.F -= f;
+    A.F.add(f); //A.F += f;
+    B.F.sub(f); //B.F -= f;
   }
 
   void display()
   {
     pushMatrix();
     
-    float ll = B.d - A.d;
     
-    int n = (int) max((l / (k * 80)), 1);
+    //stroke(0); strokeWeight(2);
+    //line(B.d.x, B.d.y, A.d.x, A.d.y);
+    
+    PVector temp = B.d.get(); temp.sub(A.d);
+    float ll = temp.mag();//B.d - A.d;
+    
+    
+    translate(A.d.x, A.d.y);
+    float a = atan2(temp.x, temp.y);
+    rotate(-a);
+    
+    int n = (int) max((l / (k * 40)), 1);
     float p = (1 / ( 1 + abs((ll - l) * 0.01))) * (l / (n * 2));
-    int j = (int) constrain((k * 80), 5, 150);
+    int j = (int) constrain((k * 40), 5, 150);
     int u = (int) constrain((c * 50), 1, 20);
     
     
-    stroke(0); strokeWeight(u); noFill();
+    stroke(0, 90); strokeWeight(u); noFill();
     float x = (ll - p) / n;
     
     for (int i = 0; i < n; i++)
     {
-      int y1 = A.d + (i * x);
+      int y1 = 0 + (i * x);
       int y2 = y1 + x + p;
       bezier(0, y1, j, y1, j, y2, 0, y2);
       if (i < (n-1))
       {
-        y1 = A.d + ((i+1) * x);
+        y1 = 0 + ((i+1) * x);
         y2 = y1 + p;
         bezier(0, y1, -j, y1, -j, y2, 0, y2);
       }

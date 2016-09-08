@@ -11,4 +11,4 @@ var extraHtml = "";//"./_resources/test.html";
 var iniDataFile = "";
 
 // Enter the list of space seperated app specific files here
-var myCodeFiles = "_main.pde _ui.pde world.pde hook.pde mass.pde spring.pde";
+var myCodeFiles = "_main.pde _ui.pde world.pde mass.pde spring.pde rigidObject.pde rigidRod.pde";

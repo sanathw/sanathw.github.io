@@ -1,6 +1,6 @@
 <html>
   <head>
-    <script src="apps.js"></script>
+    <script src="_apps.js"></script>
     <script>
       function getIndexForId(id)
       {
@@ -60,7 +60,7 @@
 
         if (i > -1)
         {
-          currentApp = apps[i].path + "/main.html";
+          currentApp = apps[i].path + "/_main.html";
           document.getElementById("appDisplay").src = currentApp;
           document.getElementById(apps[i].id).style.background = "white";
           
@@ -95,7 +95,7 @@
 
         if (i > -1)
         {
-          currentApp = apps[i].path + "/main.html";
+          currentApp = apps[i].path + "/_main.html";
           fullScreen();
           return;
         }
@@ -126,7 +126,7 @@
           {
             document.write("<tr style=\"background:white; border: 1px solid silver; cursor:pointer;\"  onclick=\"runApp('" + apps[i].id + "', this);\">");
             document.write("<td style=\"padding:5 15 5 5;\">");
-            document.write("<img src=\"" + apps[i].path + "/icon.png\" width=\"120\" height=\"120\"></img>");
+            document.write("<img src=\"" + apps[i].path + "/_icon.png\" width=\"120\" height=\"120\"></img>");
             document.write("</td>");
             document.write("<td style=\"padding:5 2 5 0;\" align=\"left\" >");
             document.write("<h2> " + apps[i].name  + "</h2>");
@@ -223,7 +223,7 @@
                   {
                     document.write("<tr style=\"border: 1px solid silver; cursor:pointer;\" id='" + apps[i].id + "' onclick=\"loadApp('" + apps[i].id + "');\">");
                     document.write("<td style=\"padding:5 12 5 5; \">");
-                    document.write("<img src=\"" + apps[i].path + "/icon.png\" width=\"40\" height=\"40\"></img>");
+                    document.write("<img src=\"" + apps[i].path + "/_icon.png\" width=\"40\" height=\"40\"></img>");
                     document.write("</td>");
                     document.write("<td style=\"padding:5 5 5 0;\" align=\"left\" >");
                     document.write(apps[i].name);
