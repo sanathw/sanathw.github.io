@@ -51,7 +51,7 @@ PImage imgPaper;
 void setup()
 {
   //doZoom = false; doTranslate = false; doRotate = false;  
-  imgPaper = loadImage("./_resources/paper3.jpg");
+  imgPaper = loadImage("./resources/paper3.jpg");
   
   demo1();
   
