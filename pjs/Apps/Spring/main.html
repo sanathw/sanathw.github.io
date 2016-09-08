@@ -7,7 +7,7 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!-- prevent zooming -->
-    <script src="_files.js"></script> 
+    <script src="files.js"></script> 
     <script src="../../processing.js"></script>
     <script src="../../Libraries/smw4.js"></script>   
     <link rel="stylesheet" type="text/css" href="../../Libraries/smw4.css"></link>
@@ -39,7 +39,7 @@
           
           // CODE LOADED HERE
           var baseCodeFiles = "../../Libraries/smw4.pde";
-          //var myCodeFiles = "_main.pde _ui.pde"; LOADED IN _file.js
+          //var myCodeFiles = "main.pde ui.pde"; LOADED IN _file.js
           
           document.write("<canvas id='mySketch' data-processing-sources='" + baseCodeFiles + " " + myCodeFiles + "'></canvas>");
           var baseCode = readCombinedFiles(baseCodeFiles);
