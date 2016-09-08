@@ -1,0 +1,4 @@
+function ShowHi()
+{
+alert('Hi');
+}
