@@ -6,14 +6,14 @@ var firstMouseX;
 var firstMouseY;
 var ctx;
 
-if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) == true ) 
-{
-  isMobile = true;
-} 
-else 
-{
+//if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) == true ) 
+//{
+//  isMobile = true;
+//} 
+//else 
+//{
   isMobile = false;
-} 
+//} 
 
 function doOnOrientationChange() 
 { 
@@ -188,7 +188,7 @@ function displayInfo(e)
   
   if (displayInfoDescriptionHTML == "") 
   {
-    displayInfoDescriptionHTML = readFile("_info.html");
+    displayInfoDescriptionHTML = readFile("info.html");
     document.getElementById("infoDescription").innerHTML = displayInfoDescriptionHTML;
   }
 }
