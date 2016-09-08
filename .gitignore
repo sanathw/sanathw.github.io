@@ -28,8 +28,8 @@ $RECYCLE.BIN/
 .AppleDouble
 .LSOverride
 
-# Thumbnails
-._*
+# ==== Thumbnails
+# ==== ._*
 
 # Files that might appear in the root of a volume
 .DocumentRevisions-V100
