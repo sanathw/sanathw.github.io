@@ -1,7 +1,7 @@
 <!--
 // NOTE:
 // THIS FILE IS THE SAME FOR ALL APPS - so modified versions should be coppied just into all the apps too.
-// It knnows about the specific code for a given app though _file.js. so don't change that when copying.
+// It knnows about the specific code for a given app though file.js. so don't change that when copying.
 -->
 
 <html>
@@ -39,7 +39,7 @@
           
           // CODE LOADED HERE
           var baseCodeFiles = "../../Libraries/smw4.pde";
-          //var myCodeFiles = "main.pde ui.pde"; LOADED IN _file.js
+          //var myCodeFiles = "_main.pde _ui.pde"; LOADED IN _file.js
           
           document.write("<canvas id='mySketch' data-processing-sources='" + baseCodeFiles + " " + myCodeFiles + "'></canvas>");
           var baseCode = readCombinedFiles(baseCodeFiles);
