@@ -1,0 +1,22 @@
+<html style="overflow: hidden;">
+  <head>
+    <script>
+      function onTouchStart(event)
+      {
+        alert("Hello");
+      }
+      
+      //document.addEventListener('touchstart', onTouchStart); 
+      
+      function initialise()
+      {
+        var canvas = document.getElementById('ControlManager');
+        canvas.addEventListener('touchstart', onTouchStart); 
+      }
+    </script>
+   </head>
+   <body onLoad=initialise() style="overflow: hidden; margin:0; border:0; padding:0;">
+      <div style="position:absolute; left:0; top:0;"> <canvas id="ControlManager" width="400" height="400"></canvas> </div>
+      <div style="position:absolute; left:0; top:0; pointer-events: none; visibility: hidden;"> <canvas id="Main" width="400" height="400"></canvas> </div>
+   </body>
+</html>

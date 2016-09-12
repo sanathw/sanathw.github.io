@@ -1,0 +1,221 @@
+<html>
+<head>
+
+<script> 
+// http://www.noupe.com/design/html5-clinic-make-your-browser-talk-with-the-speech-synthesis-api-83415.html
+var t;
+var o = 0;
+function hideImage()
+{
+  //alert("A");
+  document.getElementById("galaxy").style.opacity= o;
+  document.getElementById("r1").style.opacity= 1-o;
+  document.getElementById("r2").style.opacity= 1-o;
+  document.getElementById("r3").style.opacity= 1-o;
+  document.getElementById("r5").style.opacity= 1-o;
+  
+  o = o + 0.02;
+  if (o >= 1 )
+  {
+    window.clearInterval(t);
+  }
+}
+
+ function say()
+ {
+  document.getElementById("top").style.display = 'inline-block';
+  o = 0;
+  document.getElementById("galaxy").style.display = 'inline-block';
+  document.getElementById("galaxy").style.opacity= '0';
+  
+  t = window.setInterval(hideImage, 100);
+  
+  var p1 = document.getElementById("phrase1")
+  var phrases1 = p1.innerText || p1.textContent;
+  var phase1 = phrases1.split("\n");
+  
+  var p2 = document.getElementById("phrase2")
+  var phrases2 = p2.innerText || p2.textContent;
+  var phase2 = phrases2.split("\n");
+  
+  var p3 = document.getElementById("phrase3")
+  var phrases3 = p3.innerText || p3.textContent;
+  var phase3 = phrases3.split("\n");
+  
+  var i1 = Math.floor(Math.random() * phase1.length);
+  var i2 = Math.floor(Math.random() * phase2.length);
+  var i3 = Math.floor(Math.random() * phase3.length);
+  
+  var s = (phase1[i1]).trim() + " " + (phase2[i2]).trim() + " " + (phase3[i3]).trim() + ".";
+  
+  document.getElementById("lineToSay").innerHTML = s;
+  
+  var msg = new SpeechSynthesisUtterance();
+  msg.text = s;
+  msg.lang = "en-UK";
+  // msg.voice = stimmen[6];
+  msg.rate = 1;
+  window.speechSynthesis.speak(msg);
+ }
+
+ function reset()
+ {
+  window.clearInterval(t);
+  document.getElementById("top").style.display = 'none';
+  document.getElementById("galaxy").style.display = 'none';
+  document.getElementById("r1").style.opacity= '1';
+  document.getElementById("r2").style.opacity= '1';
+  document.getElementById("r3").style.opacity= '1';
+  document.getElementById("r5").style.opacity= '1';
+ }
+ 
+</script>
+
+
+</head>
+
+<body> <!-- bgcolor='#ffeeee'> <!-- background="./_resources/galaxy_4-t2.jpg"> <!-- bgcolor='pink'-->
+
+<img id="galaxy" src="./_resources/galaxy_4-t2.jpg" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;"/>
+
+<table style="position:fixed; top:0; left:0;  height:100%; width:100%;">
+  <tr id="r1" height=0>
+  <td colspan=3 align='center'>
+  <h2>Deepak Chopra Opera</h2>
+  </td>
+  </tr>
+  <tr id = "r2" style="height:0;">
+    <th>
+    segment 1
+    </th>
+    
+    <th>
+    segment 2
+    </th>
+    
+    <th>
+    segment 3
+    </th>
+  </tr>
+  
+  <tr id="r3" height="60%">
+    <td valign="top" style="border: 1px solid; Padding:10;"> <!--bgcolor="white"-->
+<div id='phrase1' contenteditable="true" spellcheck='false' autocomplete="off" autocorrect="off" autocapitalize="off" style="white-space:nowrap;  width:100%; height:100%; overflow:auto;" >
+Knowledge <br>
+The universe <br>
+Perceptual reality <br>
+Perception <br>
+Your heart <br>
+Intuition <br>
+Your body <br>
+Existence <br>
+Evolution <br>
+Innocence <br>
+Making tea <br>
+Awareness <br>
+Our consciousness <br>
+Non-judgment <br>
+Orderliness <br>
+Information <br>
+Self power <br>
+The cosmos <br>
+Your movement <br>
+Good health <br>
+The unpredictable <br>
+The Higgs boson <br>
+Hidden meaning <br>
+Each of us <br>
+Interdependence
+</div>
+
+    </td>
+    
+    <td valign="top" style="border: 1px solid; Padding:10;"> <!--bgcolor="white"-->
+<div id='phrase2' contenteditable="true" spellcheck='false' autocomplete="off" autocorrect="off" autocapitalize="off" style="white-space:nowrap;  width:100%; height:100%; overflow:auto;" >
+gives rise to <br>
+expresses <br>
+arises and subsides in <br>
+is the continuity of <br>
+creates <br>
+requires <br>
+exists as <br>
+unfolds into <br>
+is only possible in <br>
+transcends an <br>
+is inherent in <br>
+reflects <br>
+is an ingredient of <br>
+is in the midst of <br>
+embraces the doorway to <br>
+differentiates into <br>
+transforms <br>
+meditates on <br>
+regulates an expression of <br>
+comprehends <br>
+opens <br>
+alleviates <br>
+is beyond <br>
+influences <br>
+is the ground of
+</div>
+    </td>
+    
+    <td valign="top" style="border: 1px solid; Padding:10;"> <!--bgcolor="white"-->
+<div id='phrase3' contenteditable="true" spellcheck='false' autocomplete="off" autocorrect="off" autocapitalize="off" style="white-space:nowrap;  width:100%; height:100%; overflow:auto;" >
+pure truth <br>
+precious bliss <br>
+unbridled space time events <br>
+descriptions of positivity <br>
+subtle facts <br>
+the mechanics of acceptance <br>
+your own energy <br>
+reckless potentiality <br>
+ephemeral human observation <br>
+abundance of balance <br>
+a symphony of destiny <br>
+deep joy <br>
+the light of neural networks <br>
+boundless boundaries <br>
+brains <br>
+the flow of observations <br>
+essential chaos <br>
+intricate photons <br>
+external reality <br>
+exponential possibilities <br>
+infinite sensations <br>
+formless force fields <br>
+total timelessness <br>
+intrinsic fulfillment <br>
+potential love
+</div>
+    </td>
+  </tr>
+  
+  <tr  height="15%">
+  <td colspan=3 align='center' valign='center' style="Padding:10; width:100%;">
+      
+      <table width='100%' height='100%' style="border: 1px solid;">
+      <tr>
+      <td width='100%' style="background-color:rgba(255, 255, 255 ,0.75);" align='center'>
+        <h1>
+        <font id="lineToSay" color='blue'>
+        
+        </font>
+        </h1>
+      </td>
+      </tr>
+      </table>
+  </td>
+  </tr>
+  <tr id ="r5" height="%">
+  <td colspan=3 align='center' style="Padding:10; width:100%;">
+  <button onclick="say();" style="width:100%; height:100%;"><h1>Say</h1></button>
+  </td>
+  </tr>
+</table>
+
+<div id="top" onclick="reset();" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;"/>
+
+</body>
+
+</html>

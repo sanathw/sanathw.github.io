@@ -1,0 +1,193 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!-- preven zooming -->
+    <script src="../../processing.js"></script>
+    <script src="../../Libraries/smw4.js"></script>  
+    <link rel="stylesheet" type="text/css" href="../../Libraries/smw4.css"></link>
+  </head>
+  
+  <body style="overflow: hidden; margin:0; border:0; padding:0;">
+  
+    
+    <div id ="display" style="position:absolute; left:0; top:0;">
+    <div style="position:absolute; left:0; top:0;"> 
+      <canvas id="ControlManager" data-processing-sources="../../Libraries/ControlManager.pde"></canvas> 
+    </div>
+    <div id="abc" style="position:absolute; left:0; top:0; pointer-events: none; visibility: hidden;"> 
+      <!--canvas id="mySketch" data-processing-sources="../../Libraries/smw4.pde main.pde ui.pde"></canvas-->
+      <!--canvas id="mySketch" data-processing-sources=""></canvas-->
+      <script>
+        // load code
+        
+        var baseCodeFiles = "../../Libraries/smw4.pde";
+        var myCodeFiles = "main.pde ui.pde";
+        document.write("<canvas id='mySketch' data-processing-sources='" + baseCodeFiles + " " + myCodeFiles + "'></canvas>");
+        
+        
+        var baseCode = readCombinedFiles(baseCodeFiles);
+        
+        //var myCodeFiles = "test.pde";/////
+        var myCodeArray = readFiles(myCodeFiles);
+      </script>      
+    </div>
+    </div>
+    
+    
+    
+    <div id="info" style="display:none; position:absolute; left:0; top:30; width:100%; height:100%;">
+      <div id='code1' class="code1" onpaste='setTimeout(updateCode, 0);' onkeydown="checkEnter(event);"  contenteditable="true" spellcheck='false' autocomplete="off" autocorrect="off" autocapitalize="off" style="display:inline-block; white-space:nowrap; background:white;">
+      <!--div id='code1'  contenteditable="true" style="display:inline-block; white-space:nowrap; background:white;"-->
+      
+        <pre>
+        </pre>
+      </div>
+      <div id="infoDescription" style="display:none;"></div>
+      
+      <div style="position:fixed; left:0; top:0; width:100%; height:30; background:yellow;">
+      <button onclick="document.body.style.zoom = '100%';window.scroll(0,0);runCode();showDisplay();">run</button>
+      <button onclick="document.body.style.zoom = '200%';zoomIn();">+</button>
+      <button onclick="document.body.style.zoom = '100%';zoomOut();">-</button>
+      
+      <div id="tabs" style="display:inline-block;">
+      <script>
+        var currentCodeId = -1;
+        for (var i = 0; i < myCodeArray.length; i++)
+        {
+          var cls = "notSelected";
+          if (i == 0) cls = "Selected";
+          document.write("<button class='" + cls + "' onclick='displayCode(" + i + ", this);'>" + myCodeArray[i].name + "</button>");
+        }
+        
+      </script>
+      <button class='notSelected' onclick='displayInfo(this);'>?</button>
+      </div>
+      
+    </div>
+    
+    
+    <script>
+    
+    displayCode(0, null);
+    
+    
+    var displayInfoDescriptionHTML = ""
+    function displayInfo(e)
+    {
+      highlightButton(e);
+      document.getElementById("code1").style.display = 'none';
+      document.getElementById("infoDescription").style.display = 'inline-block';
+      displayInfoDescription = true;
+      
+      if (displayInfoDescriptionHTML == "") displayInfoDescriptionHTML = readFile("info.html");
+      document.getElementById("infoDescription").innerHTML = displayInfoDescriptionHTML;
+    }
+    
+    var zmLevel = 100;
+    function zoomIn()
+    {
+      //document.body.style.zoom = '100%';
+      zmLevel += 20;
+      document.getElementById("code1").style.zoom = "" + zmLevel + '%';
+    }
+    
+    function zoomOut()
+    {
+      //document.body.style.zoom = '100%';
+      zmLevel -= 20;
+      if (zmLevel < 10) zmLevel = 10;
+      document.getElementById("code1").style.zoom = "" + zmLevel + '%';
+    }
+    
+    //loadCode("ui.pde", document.getElementById("code1"));
+    
+    //var menu = document.getElementById("menu");
+    //menu
+    
+    //var canvas = document.getElementById("mySketch");
+    //canvas.setAttribute('data-processing-sources', "../../Libraries/ControlManager.pde");
+    //canvas.data-processing-sources="../../Libraries/ControlManager.pde";
+    
+    //updateCode();
+    
+    //if (pjs != null)//Processing.instances.length > 0)
+    //{
+      //alert("A");
+    //  pjs.exit();
+      //Processing.instances[0].exit();
+    //}
+    //var canvas = document.getElementById("mySketch")
+    //var x = (document.getElementById("code1"))
+    //var processingCode = x.innerText || x.textContent;
+    //pjs = new Processing(canvas, processingCode);
+    
+    // show code
+    //document.getElementById("display").style.display = 'none';
+    //document.getElementById("info").style.display = 'block';
+    //document.body.style.overflowX = "auto";
+    //document.body.style.overflowY = "auto";
+    
+    // show display
+    //document.getElementById("info").style.display = 'none';
+    //document.getElementById("display").style.display = 'block'
+    //document.body.style.overflowX = "hidden";
+    //document.body.style.overflowY = "hidden";
+    
+    
+    
+    //function showCode(id)
+    //{
+      //document.getElementById("code1").innerHTML = "<pre>" + myCodeArray[id].code + "</pre>";
+    //}
+    
+    function saveCurrentCode()
+    {
+      if (currentCodeId > -1)
+      {
+        var x = (document.getElementById("code1"));
+        myCodeArray[currentCodeId].code = x.innerText || x.textContent;
+      }
+    }
+    
+    function runCode()
+    {
+      saveCurrentCode();
+      
+      if (pjs != null)//Processing.instances.length > 0)
+      {
+        pjs.exit();
+        //Processing.instances[0].exit();
+      }
+      pjs = null;
+      
+      // need to remove and re-add so that P2D and P3D works
+      // because the context is linked to the canvas
+      var canvas = document.getElementById("mySketch");
+      var parent = canvas.parentNode;
+      parent.removeChild(canvas);
+      canvas = document.createElement("CANVAS");
+      canvas.setAttribute("id", "mySketch");
+      parent.appendChild(canvas);
+      //document.getElementById("abc").appendChild(canvas);
+      
+      
+      
+      
+      //var x = (document.getElementById("code1"))
+      var processingCode = combineCode(baseCode, myCodeArray);// x.innerText || x.textContent;
+      pjs = new Processing(canvas, processingCode);
+      
+      // Need this in a timeout so that it gets called after everything is rendered
+      setTimeout(focusOnDisplay, 0); 
+    }
+    
+    
+    function focusOnDisplay()
+    {
+      document.getElementById("ControlManager").focus()
+    }
+    
+    // Need this in a timeout so that it gets called after everything is rendered
+    setTimeout(focusOnDisplay, 0);
+    </script>
+ </body>
+ </html>

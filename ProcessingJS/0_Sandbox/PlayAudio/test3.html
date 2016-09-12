@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script>
+    var mediaElement1 = new Audio();
+    mediaElement1.src = "./_resources/Kalimba.mp3";
+    mediaElement1.load();
+    
+    var mediaElement2 = new Audio();
+    mediaElement2.src = "./_resources/Kalimba2.mp3";
+    mediaElement2.load();
+    
+    function loadSound()
+    {
+      mediaElement1.play();
+      mediaElement1.pause();
+      mediaElement1.currentTime = 0;
+      mediaElement2.play();
+      mediaElement2.pause();
+      mediaElement2.currentTime = 0;
+    }
+    
+    function smwABC()
+    {
+      alert("a");
+      setTimeout(playAudio1, 500);
+    }
+    
+    function playAudio1()
+    {
+      alert("A");
+      mediaElement1.play();
+      mediaElement1.currentTime = 0;
+    }
+    
+    function pauseAudio1()
+    {
+      mediaElement1.pause();
+    }
+    
+    function playAudio2()
+    {
+      mediaElement2.play();
+      mediaElement2.currentTime = 0;
+    }
+    
+    function pauseAudio2()
+    {
+      mediaElement2.pause();
+    }
+    
+  </script>
+</head>
+
+<body>
+
+<!--audio id="myAudio">
+  <source src="Kalimba.mp3" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio-->
+<button onclick="loadSound();">load</button>
+<br>
+<br>
+<button onclick="smwABC();">play1</button>
+<button onclick="pauseAudio1();">pause1</button>
+<br>
+<button onclick="playAudio2();">play2</button>
+<button onclick="pauseAudio2();">pause2</button>
+</body>
+</html>

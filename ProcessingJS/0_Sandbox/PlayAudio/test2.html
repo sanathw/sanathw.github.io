@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script>
+    var mediaElement = new Audio();
+    mediaElement.src = "./_resources/Kalimba.mp3";
+    mediaElement.load();
+    //mediaElement.play();
+    //mediaElement.pause();
+    //mediaElement.onloadeddata = alert("OK1");
+    
+    function playAudio()
+    {
+      //document.getElementById("myAudio").play();
+      //mediaElement.currentTime = 0;
+      mediaElement.play();
+      mediaElement.pause();
+      mediaElement.currentTime = 0;
+      mediaElement.play();
+    }
+    
+    function pauseAudio()
+    {
+      //document.getElementById("myAudio").pause();
+      mediaElement.pause();
+    }
+  </script>
+</head>
+
+<body>
+
+<!--audio id="myAudio">
+  <source src="Kalimba.mp3" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio-->
+<br>
+<button onclick="playAudio();">play</button>
+<br>
+<button onclick="pauseAudio();">pause</button>
+</body>
+</html>

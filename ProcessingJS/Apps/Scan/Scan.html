@@ -1,0 +1,238 @@
+<html><body><script src="../processing.js"></script><script type="application/processing" >
+//............................................................
+//file:///C:/Sanath/Projects/Web/Tests/Scan.html
+//http://localhost/smw/Tests/Scan.html
+
+final int gw = 48;
+final int gh = 48;
+final int gap = 10;
+
+PImage img;
+PGraphics g1;
+PGraphics g2;
+PGraphics m2;
+int w; int h;
+int x1; int y1;
+int x2; int y2;
+
+int icx; int icy;
+float ics = 1; 
+float icr;
+
+int cx; int cy;
+float cs = 1; 
+float cr;
+int cw; int ch;
+
+boolean showImg2 = true;
+
+/* @pjs preload="./images/Notepad.png"; */
+void setup()
+{
+	size(400, 400, P2D);
+  
+  img = loadImage("./images/Notepad.png");
+  g1 = createGraphics(gw, gh, P2D);
+  g2 = createGraphics(gw, gh, P2D);
+  m2 = createGraphics(gw, gh, P2D);
+  
+  float dw = (float) (gw) / (float) (img.width);
+  float dh = (float) (gh) / (float) (img.height);
+  float d = dw;
+  if (dh < dw) d = dh;
+  w = (int) (d * (float) img.width);
+  h = (int) (d * (float) img.height);
+}
+
+boolean store = false;
+void mousePressed() { x1 = mouseX; y1 = mouseY; x2 = mouseX; y2 = mouseY; }
+void mouseDragged() { x2 = mouseX; y2 = mouseY; store = true;}
+void keyPressed()
+{
+  if (keyCode == ' ') showImg2 = !showImg2;
+  if (keyCode == 37) icx--;
+  if (keyCode == 39) icx++;
+  if (keyCode == 38) icy--;
+  if (keyCode == 40) icy++;
+  if (key == 'q') ics -= 0.05;
+  if (key == 'w') ics += 0.05;
+  if (key == 'a') icr -= 0.05;
+  if (key == 's') icr += 0.05;
+  if (key == 'r') {icx = 0; icy = 0; ics = 1; icr = 0;  cx = 0; cy = 0; cs = 1; cr = 0; cw =0; ch = 0;}
+}
+
+void draw()
+{
+	background(250);
+  
+  int ox = gap;
+  int ix1 = x1 - ox;
+  int iy1 = y1 - gap;
+  int ix2 = x2 - ox;
+  int iy2 = y2 - gap;
+  
+  if (store)
+  {
+    cx = (int) ((ix2+ix1) / 2);
+    cy = (int) ((iy2+iy1) / 2);
+    cs = 1;
+    cr = 0;
+    cw = ix2 - ix1;
+    ch = iy2 - iy1;
+  }
+  store = false;
+
+  
+  g1.beginDraw();
+  g1.background(220);
+  g1.image(img,0,0, w, h);
+  g1.endDraw();
+  image(g1,ox,gap);
+  stroke(255, 200, 0);
+  strokeWeight(1);
+  noFill();
+  rectMode(CORNERS);
+  if (x1 != x2 && y1 != y2) rect(ox+ix1, gap+iy1, ox+ix2, gap+iy2);
+  ox += g1.width + gap;
+  
+
+  g2.beginDraw();
+  g2.background(220);
+  g2.pushMatrix();
+  g2.translate(gw/2, gh/2);
+  g2.translate(icx, icy);
+  g2.scale(ics);
+  g2.rotate(icr);
+  g2.translate(-gw/2, -gh/2);
+  g2.image(img,0,0, w, h);
+  g2.popMatrix();
+  g2.endDraw();
+  if (showImg2)  image(g2,ox,gap);
+  
+
+  
+  if (x1 != x2 && y1 != y2) 
+  {
+    g1.beginDraw(); g1.loadPixels();
+    g2.beginDraw(); g2.loadPixels();
+    m2.beginDraw();
+    
+    m2.background(220, 180);
+    m2.loadPixels();
+    
+    int sw = (ix2-ix1);
+    int sh = (iy2-iy1);
+    int rm = (int)(sw*sh);
+    int ofx = (int) ((float) (sw) / 2f);
+    int ofy = (int) ((float) (sh) / 2f);
+    
+    int scanX = (int) (cx - cw/2);//0;
+    int scanY = (int) (cy - ch/2);//0;
+    if (scanX < 0) scanX = 0;
+    if (scanY < 0) scanY = 0;
+    //int scanX = 0;
+    //int scanY = 0;
+    
+    int scanW = cw;//gw;
+    int scanH = ch;//gh;
+    //int scanW = gw;
+    //int scanH = gh;
+    
+    if ((scanX+scanW) >= gw) scanW = gw-scanX-1;
+    if ((scanX+scanH) >= gh) scanH = gh-scanY-1;
+    
+    float maxmatch = 0;
+    int maxCX = 0;
+    int maxCY = 0;
+    
+    for (int y = scanY; y < (scanY+scanH); y++)
+    {
+      for (int x = scanX; x < (scanX+scanW); x++)
+      {
+        float dx = (float)(abs(x - (ix1+ofx)));
+        float dy = (float)(abs(y - (iy1+ofy)));
+        float d = sqrt((dx*dx) + (dy*dy));
+        d = 1f / (1f + (1f * d));
+                    
+      
+              float match = 0;
+              for (int k = iy1; k <= iy2; k++)
+              {
+                for (int j = ix1; j <= ix2; j++)
+                {
+                  color c1 = g1.pixels[(gw * k) + j];
+                  
+                  int ny = k + y - iy1 - ofy;
+                  int nx = j + x - ix1 - ofx;
+                  if (nx >= 0 && nx < gw && ny >=0 && ny < gh)
+                  {
+                    color c2 = g2.pixels[(gw * ny) + nx];
+                    float r = abs(red(c2) - red(c1));
+                    float g = abs(green(c2) - green(c1));
+                    float b = abs(blue(c2) - blue(c1));
+                    
+                    //float a = (r + g + b) / 3f;
+                    float a = 0;
+                    a = max(a, r);
+                    a = max(a, g);
+                    a = max(a, b);
+                    
+                    //match += 1f - (a/255f);
+                    //a = 1f - (a/255f);
+                    //a = 255f - a;
+                    //if (c2 == c1) match++;
+                    //if (a == 0) match++;
+                    a = (255f - a)/ 255f;
+                    //a = a * d;
+                    //match = match + (a/255f);
+                    if (a > 0.95) match++;
+                    
+                    
+                    
+                    
+                    //a = a / 255f;// * 1f;//d;
+                    
+                    //match += a;
+                    //if (a > 0.5) match++;
+                  }
+                }
+              }
+        
+        match = ((float) (match) / (float) (rm));
+        
+        float c = ((float) (match)) * 255f;   
+        m2.pixels[(gw * y) + x] = color(255, 0, 0, (int)c);
+        
+        if (match > maxmatch)
+        {
+          maxmatch = match;
+          maxCX = x;
+          maxCY = y;
+        }
+      }
+    }
+
+    m2.updatePixels(); 
+    
+    if (maxmatch > 0.5)
+    {
+      strokeWeight(1);
+      stroke(0);
+      line(maxCX+ox, 0+gap, maxCX+ox, gh+gap);
+      line(ox, maxCY+gap, gw+ox, maxCY+gap);
+      cx = maxCX;
+      cy = maxCY;
+    }
+    
+    m2.endDraw();
+    g2.updatePixels(); g2.endDraw();
+    g1.updatePixels(); g1.endDraw();
+    image(m2, ox, gap);
+  }
+}
+
+
+
+//............................................................
+</script><canvas></canvas></body></html>
+

@@ -1,0 +1,204 @@
+<html>
+<head>
+
+<script>
+//file:///C:/Sanath/Projects/Web/Tests/Say.html
+// https://dvcs.w3.org/hg/speech-api/raw-file/tip/speechapi.html#tts-section
+// Speach Recognition and Speach Synthesis
+  var msg = new SpeechSynthesisUtterance();
+  var i;
+  var w;
+  var maxi;
+  var splittedLines;
+
+ // msg.onerror = function(e)
+  //{
+  //  alert("ERROR");
+  //}
+  
+  
+  /*msg.onstart = function(e)
+  {
+    var x = 1;
+    var y = 2;
+    y = x;
+  }*/
+  
+  msg.onend = function(e) 
+  {
+    //window.speechSynthesis.cancel();
+    
+    i++;
+    if (i < maxi)
+    {
+      //sayLine();
+      setTimeout(sayLine, 100);
+    }
+    else
+    {
+      i = 0;
+      (document.getElementById("line")).value = (i+1);
+    }
+    /*else
+    {
+      tt = 0;
+      //i = tt;
+      //(document.getElementById("line")).value = (i+1);
+    }*/
+    
+    // get the next line
+    /*i++
+    if (i < maxi)
+    {
+      sayLine();
+    }*/
+    /*else
+    {
+      i = 0;
+      (document.getElementById("line")).value = (i+1);
+    }*/
+  };
+
+  function sayLine()
+  {
+    //i = tt;
+    (document.getElementById("line")).value = (i+1);
+    (document.getElementById("currentLine")).value = splittedLines[i];
+    
+    msg.text = splittedLines[i];
+    window.speechSynthesis.speak(msg);
+  }
+  
+  String.prototype.replaceAll = function (targetString, subString) 
+  {
+   var inputString = this;
+   inputString = inputString.replace(new RegExp(targetString, 'g'), subString); //replace a string globally and case sensitive
+   return (inputString);
+  };
+  
+  function addLine()
+  {
+    //i++;
+    //splittedLines[i] = "";
+    splittedLines.push("");
+    w = 0;
+  }
+  
+  function addWord(wrd)
+  {
+    do
+    {
+      if ( w >= 40) // Max words in a sentence
+      {
+        addLine();
+      }
+    
+      splittedLines[splittedLines.length-1] += wrd.substring(0, 15); // Max characters in a word
+      wrd = wrd.substring(15);
+      wrd = wrd.trim();
+      splittedLines[splittedLines.length-1] += " ";
+      w++;
+    } while (wrd != "")
+  }
+  
+  function startSpeech()
+  {
+    var d = (document.getElementById("textToSay")).value;
+    d = d.replace(/\n/g, ' ');
+    d = d.replace(/"/g, '\n');
+    d = d.replace(/!/g, '!\n');
+    d = d.replace(/\?/g, '?\n');
+    d = d.replace(/\. /g, '.\n');
+
+    splittedLines = new Array();
+    i = 0;
+    w = 0;
+    
+    // split into sentences
+    var sentences = d.split('\n');
+    for (var si = 0; si < sentences.length; si++)
+    {
+      sentences[si] = sentences[si].trim();
+      
+      if (sentences[si] != "")
+      {
+        addLine();
+        
+        // split into words
+        var words = sentences[si].split(' ');   
+        for (var wi = 0; wi < words.length; wi++)
+        {
+          words[wi] = words[wi].trim();
+          
+          if (words[wi] != "")
+          {
+            addWord(words[wi]);
+          }
+        }
+      }
+    }
+    
+    maxi = splittedLines.length;
+    (document.getElementById("maxLines")).innerHTML = "of " + (maxi);
+    i = (document.getElementById("line")).value-1;
+    if (i < maxi)
+    {
+      //tt = 0;
+      sayLine();
+      //i++;
+    }
+  }
+ 
+ function loadTextToSay()
+ {
+  var xmlhttp;
+  xmlhttp = new XMLHttpRequest();
+  var fileToLoad = (document.getElementById("fileToLoad")).value
+  
+  xmlhttp.open('GET', './_resources/' + fileToLoad, false);
+  xmlhttp.send();
+  (document.getElementById("textToSay")).value = xmlhttp.responseText;
+ }
+ 
+ function clearTextToSay()
+ {
+  window.speechSynthesis.cancel();
+  (document.getElementById("maxLines")).innerHTML = "";
+  i = 0;
+  maxi = 0;
+  (document.getElementById("line")).value = (i+1);
+  (document.getElementById("currentLine")).value = "";
+  (document.getElementById("textToSay")).value = ""
+ }
+
+</script>
+
+
+</head>
+
+<body>
+
+<textarea id="textToSay" rows="15" cols="80" style="width:600px">
+</textarea>
+<br/>
+<input id="line" value="1" style="width:300px"></input>
+<text id="maxLines" "width:300px"></text>
+<br/>
+<textarea id="currentLine" rows="5" cols="80" style="width:600px"></textarea>
+<br/>
+<button onclick="startSpeech();" style="width:270px;height:40px">Say</button>
+<br/>
+<button onclick="window.speechSynthesis.pause();" style="width:270px;height:20px">Pause</button>
+<br/>
+<button onclick="window.speechSynthesis.resume();" style="width:270px;height:20px">Resume</button>
+<br/>
+<button onclick="i = maxi-1; window.speechSynthesis.cancel();" style="width:270px;height:20px">Cancel</button>
+<br/>
+File: <input id="fileToLoad" value="what_is_life.txt" style="width:240px"></input>
+<br/>
+<button onclick="loadTextToSay();" style="width:270px;height:40px">Load</button>
+<br/>
+<button onclick="clearTextToSay();" style="width:270px;height:40px">Clear</button>
+</body>
+
+</html>

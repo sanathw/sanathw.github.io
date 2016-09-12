@@ -1,0 +1,816 @@
+<html><body><script src="../../processing.js"></script><script type="application/processing" >
+//............................................................
+// file:///C:/Sanath/Projects/Web/Tests/BreakLetter.html
+// file:///C:/Sanath/Processing/Web/Tests/FingerWrite.html
+// See in Evernote: Hand Writing Recognition 4 - working
+// iPhone
+float SCALE = .2;
+int WIDTH = 964; int HEIGHT = 1260;
+int buttonHeight;
+boolean mf = false;
+
+char k = '';
+char fk = '';
+
+//HashMap HM = new HashMap();
+
+class StrokeA
+{
+  ArrayList o = new ArrayList(); // original
+  ArrayList s = new ArrayList(); // sampled
+}
+StrokeA S = new StrokeA();
+ArrayList SList = new ArrayList();
+
+class Letter
+{
+  char k = '';
+  ArrayList ss = new ArrayList(); // strokes
+  ArrayList nn = new ArrayList(); // normalised
+  ArrayList rr = new ArrayList(); // relative
+}
+Letter L = new Letter();
+ArrayList LList = new ArrayList();
+
+PGraphics2D g;
+
+void setup()
+{
+  WIDTH = (int) (WIDTH * SCALE); HEIGHT = (int) (HEIGHT * SCALE); 
+  size(WIDTH, HEIGHT, P2D);
+  buttonHeight = (int) (height * 0.08);
+  textFont(loadFont("arials"), 15); fill(0);
+  g = createGraphics(width, height, P2D);
+  
+  loadLetters();
+}
+
+
+void loadLetters()
+{
+Letter l;
+StrokeA s;
+ArrayList r;
+LList.clear();
+//////////////////////////
+// Insert println output here
+
+l = new Letter(); l.k = 'a'; LList.add(l);
+s = new StrokeA(); l.ss.add(s);
+s.s.add(new PVector(92, 92));
+s.s.add(new PVector(70.95778704687713, 91));
+s.s.add(new PVector(51.64153012213142, 100.07540963360573));
+s.s.add(new PVector(49, 122.19166216445488));
+s.s.add(new PVector(55.29134263269239, 140.2913426326924));
+s.s.add(new PVector(76.56847999276148, 139.43152000723853));
+s.s.add(new PVector(83.05875869071384, 118.8824826185723));
+s.s.add(new PVector(83, 96.82639862017209));
+s.s.add(new PVector(86.09198476264156, 101.36793905056626));
+s.s.add(new PVector(92.01731291524558, 123.0230838869941));
+s.s.add(new PVector(107, 137));
+r = new ArrayList(); l.rr.add(r);
+r.add(new PVector(0, 0));
+r.add(new PVector(-43.53561300646112, -2.068965517241395));
+r.add(new PVector(-39.964669499473885, 18.776709586770494));
+r.add(new PVector(-5.4652347354443265, 45.75776385692927));
+r.add(new PVector(13.01657096419116, 37.44761476187074));
+r.add(new PVector(44.02166350359123, -1.7789433630080111));
+r.add(new PVector(13.428162823349709, -42.515249769654275));
+r.add(new PVector(-0.12156970492517871, -45.63327723806941));
+r.add(new PVector(6.3972098537411455, 9.396290545643126));
+r.add(new PVector(12.25929962607728, 44.803747937436896));
+r.add(new PVector(30.998662933974657, 28.917757475184658));
+l = new Letter(); l.k = 'b'; LList.add(l);
+s = new StrokeA(); l.ss.add(s);
+s.s.add(new PVector(61, 51));
+s.s.add(new PVector(60.58003531390624, 72.25989405828129));
+s.s.add(new PVector(59, 93.43155448132094));
+s.s.add(new PVector(57.33724752785754, 114.62752472142458));
+s.s.add(new PVector(55, 130.3466340493909));
+s.s.add(new PVector(63.43648435853605, 111.69054692439185));
+s.s.add(new PVector(80.41048910662558, 102));
+s.s.add(new PVector(93, 112.85218453414683));
+s.s.add(new PVector(83.25201397277421, 127.74798602722579));
+s.s.add(new PVector(63.32804494489385, 135));
+s.s.add(new PVector(42, 135));
+r = new ArrayList(); l.rr.add(r);
+r.add(new PVector(0, 0));
+r.add(new PVector(-0.5999495515625171, 30.37127722611612));
+r.add(new PVector(-2.25719330558033, 30.24522917577093));
+r.add(new PVector(-2.3753606744892295, 30.279957485862354));
+r.add(new PVector(-3.338925039796493, 22.4558704685233));
+r.add(new PVector(12.052120512194364, -26.651553035712908));
+r.add(new PVector(24.248578211556463, -13.843638463416937));
+r.add(new PVector(17.985015561963465, 15.503120763066903));
+r.add(new PVector(-13.925694324608273, 21.279716418684217));
+r.add(new PVector(-28.462812896971954, 10.360019961106019));
+r.add(new PVector(-30.468635635562634, 0));
+l = new Letter(); l.k = 'c'; LList.add(l);
+s = new StrokeA(); l.ss.add(s);
+s.s.add(new PVector(97, 79));
+s.s.add(new PVector(85.16540604510195, 79));
+s.s.add(new PVector(73.72915772787205, 81));
+s.s.add(new PVector(64.89068722608773, 88.10931277391227));
+s.s.add(new PVector(60.72590387038095, 98.82228838885715));
+s.s.add(new PVector(60, 110.53908436216261));
+s.s.add(new PVector(62.8048790984973, 121.41463729549191));
+s.s.add(new PVector(70.95994383747615, 128.9198876749523));
+s.s.add(new PVector(81.33081209020386, 131));
+s.s.add(new PVector(93.16540604510192, 131));
+s.s.add(new PVector(103.99999999999997, 130));
+r = new ArrayList(); l.rr.add(r);
+r.add(new PVector(0, 0));
+r.add(new PVector(-27.310601434380146, 0));
+r.add(new PVector(-26.391342270530515, 4.615384615384613));
+r.add(new PVector(-20.396470388733036, 16.40610640133599));
+r.add(new PVector(-9.611038513169518, 24.72225141910357));
+r.add(new PVector(-1.6751627778021714, 27.03875993839722));
+r.add(new PVector(6.47279791960915, 25.097429846144536));
+r.add(new PVector(18.819380166874254, 17.31980856798549));
+r.add(new PVector(23.932772890910115, 4.800259211648552));
+r.add(new PVector(27.310601434380118, 0));
+r.add(new PVector(25.002909126687825, -2.307692307692264));
+l = new Letter(); l.k = 'd'; LList.add(l);
+s = new StrokeA(); l.ss.add(s);
+s.s.add(new PVector(93, 112));
+s.s.add(new PVector(72.37316542635257, 110));
+s.s.add(new PVector(63, 127.0733292597959));
+s.s.add(new PVector(70.8683468403337, 143.86834684033371));
+s.s.add(new PVector(90.25665265056958, 137.74334734943042));
+s.s.add(new PVector(95, 117.64461738226602));
+s.s.add(new PVector(95, 96.1893556838724));
+s.s.add(new PVector(93, 75.05864930581555));
+s.s.add(new PVector(93, 92.39661239257806));
+s.s.add(new PVector(95, 113.2015925510988));
+s.s.add(new PVector(99, 133));
+r = new ArrayList(); l.rr.add(r);
+r.add(new PVector(0, 0));
+r.add(new PVector(-35.97196670710558, -3.48788046742402));
+r.add(new PVector(-16.346240304254593, 29.774865819570465));
+r.add(new PVector(13.721926627658675, 29.28950688460037));
+r.add(new PVector(33.8120465659826, -10.6816330436518));
+r.add(new PVector(8.27211428514289, -35.05098383625116));
+r.add(new PVector(0, -37.41669410064881));
+r.add(new PVector(-3.4878804674239916, -36.850689019448225));
+r.add(new PVector(0, 30.23637139761874));
+r.add(new PVector(3.4878804674239916, 36.28264196002428));
+r.add(new PVector(6.97576093484804, 34.52723931356226));
+l = new Letter(); l.k = 'e'; LList.add(l);
+s = new StrokeA(); l.ss.add(s);
+s.s.add(new PVector(65, 107));
+s.s.add(new PVector(81.18180399096978, 106));
+s.s.add(new PVector(96.95400108496858, 102.68199963834381));
+s.s.add(new PVector(108.3502483922219, 92.29950321555621));
+s.s.add(new PVector(105.03070449075098, 78.0153522453755));
+s.s.add(new PVector(90.08880193576927, 74.47779951605769));
+s.s.add(new PVector(78.34026926235731, 84.3194614752854));
+s.s.add(new PVector(72.02805949642463, 98.88776201430146));
+s.s.add(new PVector(72, 115.18921734902703));
+s.s.add(new PVector(81.83000126661348, 126.83000126661348));
+s.s.add(new PVector(97, 130));
+r = new ArrayList(); l.rr.add(r);
+r.add(new PVector(0, 0));
+r.add(new PVector(34.973694522031224, -2.1612976242666377));
+r.add(new PVector(34.08841210872464, -7.171186298963335));
+r.add(new PVector(24.63068223072156, -22.439664852527613));
+r.add(new PVector(-7.174522347897863, -30.872301556517442));
+r.add(new PVector(-32.29389849410546, -7.645704309592503));
+r.add(new PVector(-25.39207575566411, 21.270760611314103));
+r.add(new PVector(-13.642563970982934, 31.486433344577648));
+r.add(new PVector(-0.06064492296064827, 35.23229668703095));
+r.add(new PVector(21.245558384069653, 25.159198625680744));
+r.add(new PVector(32.78688222259606, 6.851310731396552));
+l = new Letter(); l.k = 'f'; LList.add(l);
+s = new StrokeA(); l.ss.add(s);
+s.s.add(new PVector(87, 50));
+s.s.add(new PVector(81.40160838253212, 57.19678323493578));
+s.s.add(new PVector(81, 68.6760886676485));
+s.s.add(new PVector(81, 80.25020097897253));
+s.s.add(new PVector(81, 91.82431329029657));
+s.s.add(new PVector(83.35197488501858, 103.05592465505572));
+s.s.add(new PVector(86.50380012622946, 114.00760025245893));
+s.s.add(new PVector(88, 125.22850768564652));
+s.s.add(new PVector(89, 136.56655201947078));
+s.s.add(new PVector(85.65324700316192, 146.34675299683806));
+s.s.add(new PVector(76.00000000000003, 150));
+s = new StrokeA(); l.ss.add(s);
+s.s.add(new PVector(72, 99));
+s.s.add(new PVector(74.72487557168128, 98.13756221415936));
+s.s.add(new PVector(77.48637659480745, 97.17120780173084));
+s.s.add(new PVector(80.34619959029767, 96.82690020485117));
+s.s.add(new PVector(82.96550235297887, 95.51724882351057));
+s.s.add(new PVector(85.77186598485267, 95));
+s.s.add(new PVector(88.28612193798367, 94));
+s.s.add(new PVector(91.21459145348774, 94));
+s.s.add(new PVector(94.14306096899183, 94));
+s.s.add(new PVector(97.07153048449592, 94));
+s.s.add(new PVector(99, 93));
+r = new ArrayList(); l.rr.add(r);
+r.add(new PVector(0, 0));
+r.add(new PVector(-6.718069940961456, 8.63613988192293));
+r.add(new PVector(-0.4819300590385325, 13.775166519255265));
+r.add(new PVector(0, 13.888934773588844));
+r.add(new PVector(0, 13.888934773588844));
+r.add(new PVector(2.822369862022285, 13.477933637710976));
+r.add(new PVector(3.7821902894530695, 13.142010716883846));
+r.add(new PVector(1.7954398485246372, 13.46508891982512));
+r.add(new PVector(1.2000000000000028, 13.605653200589103));
+r.add(new PVector(-4.016103596205696, 11.73624117284075));
+r.add(new PVector(-11.58389640379427, 4.383896403794324));
+r = new ArrayList(); l.rr.add(r);
+r.add(new PVector(-18, 58.8));
+r.add(new PVector(3.2698506860175485, -1.0349253430087657));
+r.add(new PVector(3.313801227751398, -1.1596252949142212));
+r.add(new PVector(3.431787594588272, -0.4131691162556166));
+r.add(new PVector(3.1431633152174356, -1.5715816576087178));
+r.add(new PVector(3.3676363582485465, -0.6206985882126759));
+r.add(new PVector(3.017107143757201, -1.2000000000000028));
+r.add(new PVector(3.5141634186048947, 0));
+r.add(new PVector(3.514163418604909, 0));
+r.add(new PVector(3.514163418604909, 0));
+r.add(new PVector(2.314163418604892, -1.2000000000000028));
+l = new Letter(); l.k = 't'; LList.add(l);
+s = new StrokeA(); l.ss.add(s);
+s.s.add(new PVector(76, 53));
+s.s.add(new PVector(76, 66.26943116035629));
+s.s.add(new PVector(75.64095064730502, 79.51334546886483));
+s.s.add(new PVector(73.62460222281409, 92.6277844403014));
+s.s.add(new PVector(73, 105.85282648739597));
+s.s.add(new PVector(73, 119.12225764775225));
+s.s.add(new PVector(73, 132.39168880810854));
+s.s.add(new PVector(73, 145.66111996846482));
+s.s.add(new PVector(73.92672163666522, 158.78016490999568));
+s.s.add(new PVector(84.62349106663592, 162));
+s.s.add(new PVector(94, 155));
+s = new StrokeA(); l.ss.add(s);
+s.s.add(new PVector(54, 106));
+s.s.add(new PVector(56.9962568877493, 105.00187155612535));
+s.s.add(new PVector(60.22769812405981, 105));
+s.s.add(new PVector(63.45958117483961, 105));
+s.s.add(new PVector(66.66845003453044, 104.72192499424493));
+s.s.add(new PVector(69.85635983835573, 104.19060669360738));
+s.s.add(new PVector(73.0724677968808, 104));
+s.s.add(new PVector(76.3043508476606, 104));
+s.s.add(new PVector(79.5362338984404, 104));
+s.s.add(new PVector(82.7681169492202, 104));
+s.s.add(new PVector(85, 103));
+r = new ArrayList(); l.rr.add(r);
+r.add(new PVector(0, 0));
+r.add(new PVector(0, 14.608548066447298));
+r.add(new PVector(-0.39528369104034766, 14.580456119458944));
+r.add(new PVector(-2.219833127879923, 14.437914463966862));
+r.add(new PVector(-0.6876354746577107, 14.55967931790228));
+r.add(new PVector(0, 14.608548066447284));
+r.add(new PVector(0, 14.608548066447298));
+r.add(new PVector(0, 14.60854806644727));
+r.add(new PVector(1.0202440036681395, 14.44298525673122));
+r.add(new PVector(11.77625992290352, 3.5447725761515585));
+r.add(new PVector(10.32276212847421, -7.706422018348633));
+r = new ArrayList(); l.rr.add(r);
+r.add(new PVector(-24.220183486238533, 58.34862385321101));
+r.add(new PVector(3.298631436054272, -1.0988570024308046));
+r.add(new PVector(3.557549984929011, -0.0020604287618510853));
+r.add(new PVector(3.5580363861795945, 0));
+r.add(new PVector(3.532699662044948, -0.3061376210147557));
+r.add(new PVector(3.5096254721012343, -0.5849375786835367));
+r.add(new PVector(3.5406693121376946, -0.20984223149436332));
+r.add(new PVector(3.5580363861795945, 0));
+r.add(new PVector(3.5580363861795945, 0));
+r.add(new PVector(3.5580363861795945, 0));
+r.add(new PVector(2.4571189549869388, -1.10091743119267));
+l = new Letter(); l.k = '4'; LList.add(l);
+s = new StrokeA(); l.ss.add(s);
+s.s.add(new PVector(70, 48));
+s.s.add(new PVector(71, 60.94457985768093));
+s.s.add(new PVector(71, 74.88915971536186));
+s.s.add(new PVector(70.20533810929393, 88.76797134423639));
+s.s.add(new PVector(67.51173186572973, 102.44134067135133));
+s.s.add(new PVector(64.05498224085743, 115.89003551828515));
+s.s.add(new PVector(66.40742226719536, 124));
+s.s.add(new PVector(78.7222122116254, 118.42592926279153));
+s.s.add(new PVector(92.11084028463814, 115));
+s.s.add(new PVector(106.05542014231908, 115));
+s.s.add(new PVector(120, 115));
+s = new StrokeA(); l.ss.add(s);
+s.s.add(new PVector(85, 57));
+s.s.add(new PVector(85, 63.95075084249965));
+s.s.add(new PVector(85.94625314975161, 70.78501259900645));
+s.s.add(new PVector(86.17684409959108, 77.70737639836433));
+s.s.add(new PVector(87, 84.55679211876327));
+s.s.add(new PVector(87.88400190453221, 91.42000952266105));
+s.s.add(new PVector(88, 98.3592742901698));
+s.s.add(new PVector(88, 105.31002513266944));
+s.s.add(new PVector(88.71492013609226, 112.14476040827677));
+s.s.add(new PVector(89, 119.04924915750036));
+s.s.add(new PVector(89, 126));
+r = new ArrayList(); l.rr.add(r);
+r.add(new PVector(0, 0));
+r.add(new PVector(1.5384615384615472, 19.91473824258604));
+r.add(new PVector(0, 21.453199781047587));
+r.add(new PVector(-1.2225567549324126, 21.352017890576192));
+r.add(new PVector(-4.14400960548339, 21.03595281094607));
+r.add(new PVector(-5.318076345957394, 20.690299764513554));
+r.add(new PVector(3.6191385020583624, 12.476868433407475));
+r.add(new PVector(18.945830683738535, -8.57549344185918));
+r.add(new PVector(20.597889343096526, -5.270660404294659));
+r.add(new PVector(21.453199781047573, 0));
+r.add(new PVector(21.453199781047573, 0));
+r = new ArrayList(); l.rr.add(r);
+r.add(new PVector(23.07692307692308, 13.84615384615384));
+r.add(new PVector(0, 10.693462834614849));
+r.add(new PVector(1.4557740765409335, 10.514248856164315));
+r.add(new PVector(0.35475530744534467, 10.649790460550577));
+r.add(new PVector(1.2663936929367878, 10.537562646767611));
+r.add(new PVector(1.3600029300495748, 10.558796005996584));
+r.add(new PVector(0.17845860841197236, 10.675791950013434));
+r.add(new PVector(0, 10.693462834614849));
+r.add(new PVector(1.0998771324496488, 10.514977347088205));
+r.add(new PVector(0.4385844060118984, 10.622290383420903));
+r.add(new PVector(0, 10.693462834614849));
+
+
+////////////////////////////////////
+}
+
+boolean teach = false;
+void keyPressed()
+{
+  k = key;
+ 
+  fk = '';
+  
+  if (k == '-')
+  {
+    L.ss = new ArrayList(); // strokes
+    L.nn = new ArrayList(); // normalised
+    L.rr = new ArrayList(); // relative
+  }
+  else if (k == '=')
+  {
+    for (int i = 0; i < LList.size(); i++)
+    {
+      Letter l = (Letter) LList.get(i);
+      println("l = new Letter(); l.k = '" + new Character(l.k) + "'; LList.add(l);");
+      
+      for (int  j = 0; j <l.ss.size(); j++)
+      {
+        StrokeA s = (StrokeA) l.ss.get(j);
+        println("s = new StrokeA(); l.ss.add(s);");
+        for (int w = 0; w < s.s.size(); w++)
+        {
+          PVector p = (PVector) s.s.get(w);
+          println("s.s.add(new PVector(" + p.x + ", " + p.y + "));");
+        }
+      }
+      
+      for (int j = 0; j < l.rr.size(); j++)
+      {
+        ArrayList r = (ArrayList) l.rr.get(j);
+        println("r = new ArrayList(); l.rr.add(r);");
+ 
+        
+        for (int w = 0; w < r.size(); w++)
+        {
+          PVector p = (PVector) r.get(w);
+          println("r.add(new PVector(" + p.x + ", " + p.y + "));");
+        }
+      }
+    }
+  }
+  else if (k == ' ')
+  {
+    L = new Letter();
+    teach = false;
+    k=''; fk='';
+  }
+  else
+  {
+    boolean foundLetter = false;
+    for (int i = 0; i < LList.size(); i++)
+    {
+      Letter l = (Letter) LList.get(i);
+      if (l.k == key)
+      {
+        L = l;
+        foundLetter = true;
+        break;
+      }
+    }
+    
+    if (foundLetter == false)
+    {
+      L = new Letter();
+      L.k = key;
+      LList.add(L);
+    }
+    
+    //if (HM.containsKey(key)) L = HM.get(key);
+    //else {L = new Letter(); L.k = key; HM.put(key, L);}
+    
+    
+    teach = true;
+  }
+
+  SList = new ArrayList();
+  S = new StrokeA();
+  
+  //println(k);
+}
+
+void mousePressed()
+{
+  if (mouseY > height - buttonHeight) 
+  { 
+    L = new Letter(); 
+    teach = false; 
+    k=''; fk=''; 
+
+    SList = new ArrayList();
+    S = new StrokeA(); 
+    return;
+  }
+  mf = true;
+ 
+  
+  S = new StrokeA();
+  S.o.add(new PVector(mouseX, mouseY));
+  SList.add(S);
+}
+
+
+void mouseDragged() { if (mf == false) return; S.o.add(new PVector(mouseX, mouseY)); }
+
+void mouseReleased()
+{
+  if (mf == false) return;
+ 
+  S.s = getReSampledStroke(S.o, 10);
+
+  if (teach)
+  {
+    L.ss.add(S);
+    
+    ArrayList ss = new ArrayList();
+    for (int i = 0; i < L.ss.size(); i++)
+    {
+      StrokeA s = (StrokeA) L.ss.get(i);
+      ss.add(s.s);
+    }
+    
+    L.nn = getNormalisedStrokes(ss, 120, 120);
+    L.rr = getRelativeChangeStrokes(L.nn);
+  }
+ 
+  mf = false;
+ 
+  S = new StrokeA();
+ 
+  if (teach == false)
+  {
+  
+    ArrayList ss = new ArrayList();
+    for (int i = 0; i < SList.size(); i++)
+    {
+      StrokeA s = (StrokeA) SList.get(i);
+      ss.add(s.s);
+    }
+    
+    ArrayList Tnn = getNormalisedStrokes(ss, 120, 120);
+    ArrayList Trr = getRelativeChangeStrokes(Tnn);
+  
+    fk = '?';
+    float best = MAX_FLOAT;
+   
+    
+    for (int i = 0; i < LList.size(); i++)
+    {
+      Letter ML = (Letter) LList.get(i);
+      float d = compareStrokes(ML.rr, Trr);
+
+     
+      if (d < best)
+        {
+          best = d;
+          fk = ML.k;
+        }
+    }
+    
+    /*Iterator it = HM.entrySet().iterator();  // Get an iterator
+    while (it.hasNext()) {
+      Map.Entry me = (Map.Entry)it.next();
+   
+      Letter ML = (Letter) me.getValue();
+    
+      float d = compareStrokes(ML.rr, Trr);
+
+     
+      if (d < best)
+        {
+          best = d;
+          fk = ML.k;
+        }
+    }*/
+  }
+}
+
+void draw()
+{
+//scale(5, 5);
+//println(k);
+     //background(250); 
+     rectMode(CORNERS);
+     
+     
+  // draw border
+  strokeWeight(1); stroke(0, 90); noFill(); rect(0,0,width-2, height-2);
+
+  ellipseMode(RADIUS);
+  g.ellipseMode(RADIUS);
+  PVector l;
+
+  // draw current stroke
+  g.beginDraw();
+  g.loadPixels();
+  for (int i = 0; i< g.pixels.length; i++)
+  {
+    g.pixels[i] = (int) (g.pixels[i] / 1.2);//lerpColor(g.pixels[i], color(0,0), 0.1);
+  }
+  g.updatePixels();
+  
+  for (int i = 0; i < S.o.size(); i++)
+  {
+    PVector p = (PVector) S.o.get(i);
+    if (i > 0) {g.strokeWeight(1); g.stroke(255, 0, 0, 30); g.line(l.x, l.y, p.x, p.y);}
+    g.strokeWeight(0.01); g.fill(0,50); g.ellipse(p.x, p.y, 2, 2);
+    l = p;
+  }
+  g.endDraw();
+  
+  //strokeWeight(0.01); fill(255, 1); rect(0,0,width, height);
+  
+  /*
+  pushMatrix();
+  scale(0.25);
+  for (int j = 0; j < SList.size(); j++)
+  {
+    strokeWeight(0.01); fill(0, 90); rect(0,0,width, height);
+    StrokeA s = (StrokeA) SList.get(j);
+    
+    for (int i = 0; i < s.s.size(); i++)
+    {
+      PVector p = (PVector) s.s.get(i);
+      if (i > 0) {strokeWeight(1); stroke(255, 0, 0, 230); line(l.x, l.y, p.x, p.y);}
+      strokeWeight(0.01); fill(0,250); ellipse(p.x, p.y, 2, 2);
+      l = p;
+    }
+    
+    translate(width, 0);
+  }
+  
+  popMatrix();
+  */
+  
+ 
+ 
+  // draw selected letter
+  pushMatrix();
+  ArrayList ss = new ArrayList();
+  for (int j = 0; j < L.ss.size(); j++)
+  {
+    StrokeA s = (StrokeA) L.ss.get(j);
+    for (int i = 0; i < s.s.size(); i++)
+    {
+      PVector p = (PVector) s.s.get(i);
+      if (i > 0) {strokeWeight(1); stroke(255, 0, 0, 230); line(l.x, l.y, p.x, p.y);}
+      strokeWeight(0.01); fill(0,250); ellipse(p.x, p.y, 2, 2);
+      l = p;
+    }
+  }
+  popMatrix();
+
+
+  fill(0, 90); text(k, 10, height - buttonHeight - 10);
+  fill(0); text(fk, width/2, height - buttonHeight - 10);
+
+  // draw button
+  strokeWeight(0.01); fill(0, 90); rect(0, height - buttonHeight, width, height);
+  
+  image(g, 0, 0);
+  
+  //hide
+  strokeWeight(0.01); fill(255, 190); rect(0,0,width, height);
+  
+  
+}
+
+
+
+
+
+//////////////////////////////////////////////////////////////
+// Given an array list of points, it resamples it to a certain number of points
+ArrayList getReSampledStroke(ArrayList A, int segments)
+{
+  ArrayList B = new ArrayList();
+
+  if (A == null || segments < 1) return null;
+  if (A.size() == 0) return B;
+  if (A.size() == 1)
+  {
+    for (int i = 0; i <= segments; i++) B.add(A.get(0));
+    return B;
+  }
+
+  // find the total length of the stroke
+  float d = 0; PVector l;
+  for (int i = 0;  i< A.size(); i++)
+  {
+    PVector p = (PVector) A.get(i);
+    if (i > 0) d += dist(l.x, l.y, p.x, p.y);
+    l = p;
+  }
+
+  // get the normalised length of a segment
+  float nd = d / (float) segments;
+
+  // step through and add the right sizes from A to B
+  float rd = 0;
+  for (int i = 0;  i< A.size(); i++)
+  {
+    PVector p = (PVector) A.get(i);
+
+    if (i == 0) {B.add(p); }  // always add the first point
+    else if (i > 0)
+    {
+      float d = dist(l.x, l.y, p.x, p.y); rd += d;
+  
+      if (rd == nd) { B.add(p); rd = 0; } // if the distance from the last point to current is the required distance, then add it
+      else
+      {
+        while (rd >= nd) // if the remaining distance is greater than the normalised distance, then keep on adding
+        {
+          float r = d - (rd - nd);
+          float a = r / d;
+
+          // get the new pseudo point back from the current actual point
+          float x = l.x + (p.x - l.x) * a;
+          float y = l.y + (p.y - l.y) * a;
+      
+          l = new PVector(x, y); B.add(l);
+          rd = d - r; // get the new remaining distance
+          d = rd;
+        }
+    
+        // at the end of the iteration, if there is still a point left over, then add the last point
+        if (i == A.size() -1 && B.size() < segments + 1) B.add(A.get(i));
+      }
+    }
+  
+    l = p;
+  }
+  return B;
+}
+
+
+//////////////////////////////////////////////////////////////
+// Get the bounds of a stroke
+void getBounds(ArrayList s, PVector topLeft, PVector bottomRight)
+{
+  if (s == null) return;
+
+  for (int i = 0; i < s.size(); i++)
+  {
+    PVector p = (PVector) s.get(i);
+    topLeft.x = min(topLeft.x, p.x);
+    topLeft.y = min(topLeft.y, p.y);
+    bottomRight.x = max(bottomRight.x, p.x);
+    bottomRight.y = max(bottomRight.y, p.y);
+  }
+}
+
+
+//////////////////////////////////////////////////////////////
+//
+ArrayList getTransformedStroke(ArrayList s, int x, int y, float r)
+{
+  if (s == null) return null;
+
+  ArrayList ns = new ArrayList();
+  PMatrix2D m = new PMatrix2D();
+  m.scale(r);
+  m.translate(x, y);
+
+  for (int i = 0; i < s.size(); i++)
+  {
+    PVector ps = (PVector) s.get(i);
+    PVector pd = new PVector();
+    m.mult(ps, pd);
+    ns.add(pd);
+  }
+  return ns;
+}
+
+
+//////////////////////////////////////////////////////////////
+//
+ArrayList getNormalisedStrokes(ArrayList ss, int w, int h)
+{
+  if (ss == null) return null;
+
+  ArrayList nss = new ArrayList();
+
+  // get bounds
+  PVector topLeft = new PVector(MAX_INT, MAX_INT);
+  PVector bottomRight = new PVector(MIN_INT, MIN_INT);
+
+  for (int i = 0; i < ss.size(); i++)
+  {
+    ArrayList s = (ArrayList) ss.get(i);
+    getBounds(s, topLeft, bottomRight);
+  }
+
+  int x = (int) (-topLeft.x);
+  int y = (int) (-topLeft.y);
+
+  float dx = bottomRight.x - topLeft.x;
+  float dy = bottomRight.y - topLeft.y;
+
+  float sx = w / dx;
+  float sy = h / dy;
+  float r = min(sx, sy);
+
+
+
+  for (i = 0; i < ss.size(); i++)
+  {
+    ArrayList s = (ArrayList) ss.get(i);
+    nss.add(getTransformedStroke(s, x, y, r));
+  }
+
+  return nss;
+}
+
+
+//////////////////////////////////////////////////////////////
+//
+ArrayList getRelativeChangeStrokes(ArrayList ss)
+{
+  if (ss == null) return null;
+
+  ArrayList nss = new ArrayList();
+  PVector lv;
+
+  for (int j = 0; j < ss.size(); j++)
+  {
+    ArrayList s = (ArrayList) ss.get(j);
+    ArrayList ns = new ArrayList();
+    nss.add(ns);
+  
+    for (int i = 0; i < s.size(); i++)
+    {
+      PVector v = (PVector) s.get(i);
+    
+      if (j == 0 && i == 0) lv = v;
+      else if (i == 0) lv = llv;
+    
+      if (i == 0) llv = v;
+    
+      PVector nv = new PVector(v.x - lv.x,  v.y - lv.y);
+      ns.add(nv);
+    
+      lv = v;
+    }
+
+  }
+
+  return nss;
+}
+
+//////////////////////////////////////////////////////////////
+//
+float compareStrokes(ArrayList tt, ArrayList ss)
+{
+  float e = MAX_FLOAT;
+ 
+  if (tt.size() != ss.size()) return e;
+ 
+    e = 0;
+    for (int j = 0; j < tt.size(); j++)
+    {
+      ArrayList sa = (ArrayList) tt.get(j);
+      ArrayList sb = (ArrayList) ss.get(j);
+    
+      for (int i = 0; i < sa.size(); i++)
+      {
+        PVector va = (PVector) sa.get(i);
+        PVector vb = (PVector) sb.get(i);
+        e += abs(va.x - vb.x);
+        e += abs(va.y - vb.y);
+      }
+    }
+ 
+  return e;
+}
+
+//............................................................
+</script><canvas></canvas></body></html>

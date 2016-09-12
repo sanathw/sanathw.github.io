@@ -1,0 +1,65 @@
+<html>
+
+<script>
+  var pjs= null;
+  var doFirstMouseDown = false; 
+  
+      function onTouchStart(event)
+      {
+        //alert("Hello");
+        //pjs = Processing.getInstanceById("mySketch"); 
+        //pjs.mousePressed = true;
+        //alert(pjs.mousePressed);
+        doFirstMouseDown = true;
+      }
+      
+      document.addEventListener('touchstart', onTouchStart); 
+      
+      //function initialise()
+      //{
+      //  var canvas = document.getElementById('ControlManager');
+      //  canvas.addEventListener('touchstart', onTouchStart); 
+      //}
+</script>
+
+
+
+<body><script src="../../processing.js"></script><script type="application/processing" data-processing-target="mySketch">
+//
+//............................................................
+
+//boolean bb = true;
+
+void setup()
+{
+	size(400, 400, P2D);
+}
+
+//void touchStart(TouchEvent touchEvent)
+//{
+//  alert("Hello");
+//}
+
+
+void draw()
+{
+  //println(mousePressed);
+  //if (pjs != null) println(pjs.mousePressed);
+  if (doFirstMouseDown == true) {mousePressed = true; doFirstMouseDown = false; document.removeEventListener('touchstart', onTouchStart);}
+  
+  if (mousePressed == true)// && bb == true) 
+  {
+    //bb = false;
+    //alert("Hi");
+    background(250, 0, 0);
+  }
+  else
+  {
+    background(250);
+  }
+}
+
+
+//............................................................
+</script><canvas id="mySketch"></canvas></body></html>
+

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+    body 
+    {
+      margin: 0
+    }
+    
+    table 
+    {
+        border: 1px solid black;
+        border-collapse:collapse;
+    }
+    
+    th, td 
+    {
+      border:none;
+      //padding: 10px;
+      text-align: center;
+      vertical-align: center;
+    }
+    
+      .rotate_text
+      {
+         -moz-transform:rotate(-90deg); 
+         -moz-transform-origin: center center;
+         -webkit-transform: rotate(-90deg);
+         -webkit-transform-origin: center center;
+         -o-transform: rotate(-90deg);
+         -o-transform-origin:  center center;
+          position:relative;
+         //top:20px;
+         
+         //vertical-align:center;
+         //horizontal-align:center;
+         //vertical-align:bottom;
+      }
+   </style>
+
+    </style>
+  </head>
+  <body onload="myFunction()">
+    <!-- table id="myTable" width="100%" height="100%" -->
+    <table id="myTable" width="100%" height="100%" style="max-width:700px;">
+      <thead>
+        <tr>
+          <th>2016</th>
+          <th>Mon</th>
+          <th>Tue</th>
+          <th>Wed</th>
+          <th>Thr</th>
+          <th>Fri</th>
+          <th>Sat</th>
+          <th>Sun</th>
+        </tr>
+          <td colspan=8></td>
+        <tr>
+        </tr>
+      </thead>
+    </table>
+
+    <script>
+    function myFunction() 
+    {
+        var date = new Date(2016, 0, 1);
+        date.setHours(0,0,0,0);
+        var weekDay = date.getDay();
+        var start = false;
+        
+        var today = new Date();
+        today.setHours(0,0,0,0);
+        
+        var weekStartDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        weekStartDate.setHours(0,0,0,0);
+        if (weekDay == 0)
+        {
+          weekStartDate.setDate(weekStartDate.getDate() - 6);
+        }
+        else
+        {
+          weekStartDate.setDate(weekStartDate.getDate() - (weekDay -1));
+        }
+    
+        var table = document.getElementById("myTable");
+        
+        var sameMonth = false;
+        var lastMonth = -1;
+        var rowSpanCount = 0;
+        
+        var cell0 = null;
+        
+        for (var i = 2; i< 58; i++)
+        {
+          var shadow = false;
+ 
+          if (date - weekStartDate < 0)
+          {
+            shadow = true;
+          }
+          
+          var row = table.insertRow(i);
+          
+          // If in rowSpan then don't add
+          //alert(date.getMonth());
+          
+            
+          var startCellId = 0;
+          var endCellId = 6;
+          
+          
+          rowSpanCount++;
+          if (date.getMonth() != lastMonth)
+          {
+          //alert(rowSpanCount);
+            if (cell0 != null)
+            {
+              cell0.rowSpan = rowSpanCount;
+            }
+            
+            cell0 = row.insertCell(0);
+            //cell0.style.border = "1px solid #000000";
+            //cell0.style.backgroundColor = rgbToHex(184, 204, 228);
+            //cell0.innerHTML = date.getMonth();
+            
+            var locale = "en-us";
+            var monthName = date.toLocaleString(locale, { month: "long" });
+            cell0.innerHTML = monthName;
+            cell0.className += "rotate_text";
+            var month = date.getMonth();
+            //if (month % 2 == 0)
+            //{
+            //  cell0.style.backgroundColor = rgbToHex(184, 204, 228);
+            //}
+            
+            //cell0.rowSpan = 5;
+            startCellId = 1;
+            endCellId = 7;
+            rowSpanCount = 0;
+            lastMonth = date.getMonth();
+          }
+          
+          
+          for (var j = startCellId; j<=endCellId; j++)
+          {
+            var cell = row.insertCell(j);
+            
+            if (start == false && (j == weekDay || (j==7 && weekDay==0)))
+            {
+              start = true;
+            }
+            
+            if (start == true)
+            {
+              myCell(cell, date, today, shadow);
+            }
+            
+            //if (i ==2 && j == 1) cell.rowSpan = 3;
+            
+          }
+        }
+        
+        if (cell0 != null)
+        {
+          cell0.rowSpan = rowSpanCount+1;
+        }
+    }
+    
+    
+    function myCell(cell, date, today, shadow)
+    {
+      var weekDay = date.getDay();
+      var monthDay = date.getDate();
+      var month = date.getMonth();
+      cell.innerHTML = monthDay;
+      
+      var r = 0;
+      var g = 0;
+      var b = 0;
+      
+      if (month % 2 == 0)
+      {
+        cell.style.color = rgbToHex(83, 141, 213);
+        //if (shadow == true) cell.style.color = rgbToHex(33, 56, 85);
+        if (shadow == true) cell.style.color = rgbToHex(83, 106, 135);
+        r = 220; g = 230; b = 241;
+      }
+      else
+      {
+        cell.style.color = rgbToHex(0, 0, 0);
+        if (shadow == true) cell.style.color = rgbToHex(80, 80, 80);
+        r = 255; g = 255; b = 255;
+      }
+      
+      if (weekDay == "6" || weekDay == "0")
+      {
+        r = r +(255-r)/4;
+        g = g +(255-g)/4;
+        b = b +(0-b)/4;
+        
+        if (weekDay == 6)
+        {
+          cell.style.borderLeft = "1px solid " + rgbToHex(196, 215, 155);//#C4D79B";
+          if (shadow == true) cell.style.borderLeft = "1px solid " + rgbToHex(78, 86, 62);
+        }
+      }
+      
+      //alert(date);
+      //alert(today);
+      if (date.toDateString() == today.toDateString())
+      {
+        cell.style.border = "4px solid #000000";
+      }
+      
+      if (shadow == true)
+      {
+        r = r +(0-r)/2.5;
+        g = g +(0-g)/2.5;
+        b = b +(0-b)/2.5;
+      }
+      
+      r = parseInt(r);
+      g = parseInt(g);
+      b = parseInt(b);
+      
+
+      
+      cell.style.backgroundColor = rgbToHex(r, g, b);
+      
+      date.setDate(date.getDate() + 1);
+    }
+    
+    function rgbToHex(r, g, b) 
+    {
+      return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    }
+    
+    </script>
+
+  </body>
+</html>

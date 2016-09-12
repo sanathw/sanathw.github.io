@@ -1,0 +1,53 @@
+<html style="overflow: hidden;">
+  <head>
+    <script src="../../processing.js"></script>
+    <script type="text/javascript">
+      window.onmousemove = function mousemoved(evt)
+      {
+       var pjs = Processing.getInstanceById("mySketch");
+       pjs.mouseX = evt.clientX;
+       pjs.mouseY = evt.clientY;
+       return false;
+      }
+      
+      window.onmousedown = function onmousedown(evt)
+      {
+       var pjs = Processing.getInstanceById("mySketch");
+       pjs.mouseX = evt.clientX;
+       pjs.mouseY = evt.clientY;
+       pjs.updateMouseButton(true);
+       if (evt.button == 2) 
+       {
+        pjs.mouseButton = 39;//RIGHT;
+       }
+       else
+       {
+        pjs.mouseButton = 37;//LEFT;
+       }
+       
+       return false;
+      }
+      
+      window.onmouseup = function onmouseup(evt)
+      {
+       var pjs = Processing.getInstanceById("mySketch");
+       pjs.mouseX = evt.clientX;
+       pjs.mouseY = evt.clientY;
+       pjs.updateMouseButton(false);
+       return false;
+      }
+      
+      window.oncontextmenu = function oncontextmenu(evt)
+      {
+        return false;
+      }
+    
+    </script>
+   </head>
+   <body style="overflow: hidden; margin:0; border:0; padding:0;">
+     
+    <div style="pointer-events: none;"> <canvas id="mySketch" data-processing-sources="main.pde"></canvas> <div>
+    <div style="pointer-events: none;"> <canvas id="mySketch2" data-processing-sources="main2.pde"></canvas> <div>
+    
+   </body>
+ </html>

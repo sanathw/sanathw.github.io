@@ -1,0 +1,279 @@
+<html><body><script src="../../processing.js"></script><script type="application/processing" >
+//............................................................
+// "C:\Sanath\AppData\Dropbox\Public\dbTests\Test_Web\FingerWrite.html"
+// https://dl.dropboxusercontent.com/u/17121438/dbTests/Test_Web/FingerWrite.html
+
+ArrayList letterList = new ArrayList();
+ArrayList currentLetter = new ArrayList();
+
+ArrayList currentStroke = null;
+float letterSize = 100;
+boolean mf = false;
+int buttonHeight = 100;
+
+void setup() { size(964, 1260, P2D);   textFont(loadFont("arials"), 15); }
+void mousePressed() 
+{
+  if (mouseY > height - buttonHeight)
+  {
+    letterList = new ArrayList();
+    currentLetter = new ArrayList();
+    maxLineLen = 0;
+    currentStroke = null;
+    return;
+  }
+  mf = true; currentStroke = new ArrayList(); 
+}
+void mouseDragged(){ if (mf == true) {PVector p = new PVector(mouseX, mouseY); currentStroke.add(p); }}
+void mouseReleased() 
+{
+  if (mf == false) return;
+  
+  // the dot above the i and j
+  if (currentStroke.size() == 0)
+  {
+    if (letterList.size() > 0)
+    {
+      PVector p = new PVector(mouseX-10, mouseY-10); currentStroke.add(p);
+      p = new PVector(mouseX+10, mouseY-10); currentStroke.add(p);
+      p = new PVector(mouseX+10, mouseY+10); currentStroke.add(p);
+      p = new PVector(mouseX-10, mouseY+10); currentStroke.add(p);
+      p = new PVector(mouseX-10, mouseY-10); currentStroke.add(p);
+      currentLetter.add(currentStroke);
+      ArrayList currentNormalisedLetter = getNormalisedLetter(currentLetter);
+      letterList.set(letterList.size()-1, currentNormalisedLetter);
+    }
+  }
+  // space (or 2 spaces is return)
+  else if (isSpace(currentStroke))
+  {
+    letterList.add(null);
+  }
+  else
+  {
+    // if is a special character then add to the last letter
+    if (isSpecialStroke(currentStroke) && letterList.size() > 0)
+    {
+      currentLetter.add(currentStroke);
+      ArrayList currentNormalisedLetter = getNormalisedLetter(currentLetter);
+      letterList.set(letterList.size()-1, currentNormalisedLetter);
+    }
+    else
+    {
+      currentLetter = new ArrayList();
+      currentLetter.add(currentStroke); 
+      ArrayList currentNormalisedLetter = getNormalisedLetter(currentLetter);
+      letterList.add(currentNormalisedLetter);
+    }
+  }
+  
+  currentStroke = null; 
+  mf = false;
+}
+
+int maxLineLen = 0;
+void draw()
+{
+	background(250); rectMode(CORNERS); noFill(); rect(0,0,width-2, height-2);
+  drawStroke(currentStroke);
+  
+  pushMatrix();
+  translate(20, 20);
+  if ((maxLineLen+1)*letterSize > width)
+  {
+    float s = (float) width / (float) ((maxLineLen+1) * letterSize);
+    scale(s);
+  }
+  drawLetterList(letterList);
+  popMatrix();
+  
+  strokeWeight(0.01);
+  fill(0, 90);
+  rect(0, height - buttonHeight, width, height);
+}
+
+/////////////////////////////////
+boolean isSpace(ArrayList s)
+{
+  if (s == null || s.size() < 2) return false;
+  
+  PVector v1 = (PVector) s.get(0);
+  float d = 0;
+  for (int i = 1; i < s.size(); i++)
+  {
+    PVector v2 = (PVector) s.get(i);
+    if (v2.x > v1.x) return false;
+    d += abs(v2.y - v1.y);
+    //v1 = v2;
+  }
+  
+  d = d / s.size();
+  if (d < 40) return true; 
+  
+  return false;
+}
+
+boolean isSpecialStroke(ArrayList s)
+{
+  if (s == null || s.size() < 2) return false;
+  
+  PVector v1 = (PVector) s.get(0);
+  float d = 0;
+  for (int i = 1; i < s.size(); i++)
+  {
+    PVector v2 = (PVector) s.get(i);
+    if (v2.x < v1.x) return false;
+    d += abs(v2.y - v1.y);
+    //v1 = v2;
+  }
+  
+  d = d / s.size();
+  if (d < 40) return true; 
+  
+  return false;
+}
+/////////////////////////////////
+
+void drawLetterList(ArrayList z)
+{
+  if (z == null) return;
+  
+  
+  int x = 0;
+  int y = 0;
+  int spaceCount = 0;
+  int lineLen = 0;
+  for (int i = 0; i < z.size(); i++)
+  {
+    ArrayList l = (ArrayList) z.get(i);
+    
+    pushMatrix();
+    translate(x, y);
+    drawLetter(l);
+    popMatrix();
+    x += letterSize;
+    
+    if (l == null) spaceCount++;
+    else spaceCount = 0;
+    
+    lineLen++;
+    maxLineLen = max(maxLineLen, lineLen);
+    
+    if (spaceCount == 2) {spaceCount = 0; y += letterSize; x = 0; lineLen = 0;}
+  }
+  
+  // cursor
+  strokeWeight(0.01);
+  fill(0, 0, 255, 50);
+  pushMatrix();
+  translate(x, y);
+  rect(0, 0, letterSize, letterSize);
+  popMatrix();
+}
+
+void drawLetter(ArrayList l)
+{
+  strokeWeight(0.01);
+  fill(0, 20);
+  rect(0, 0, letterSize, letterSize);
+  
+  if (l == null) return;
+  
+  for (int i = 0; i < l.size(); i++)
+  {
+    ArrayList s = (ArrayList) l.get(i);
+    drawStroke(s);
+  }
+}
+
+ArrayList getNormalisedLetter(ArrayList l)
+{
+  if (l == null) return null;
+  
+  ArrayList nl = new ArrayList();
+  
+  // get bounds
+  PVector topLeft = new PVector(MAX_INT, MAX_INT);
+  PVector bottomRight = new PVector(MIN_INT, MIN_INT);
+  
+  for (int i = 0; i < l.size(); i++)
+  {
+    ArrayList s = (ArrayList) l.get(i);
+    getBounds(s, topLeft, bottomRight);
+  }
+  
+  int x = (int) (-topLeft.x);
+  int y = (int) (-topLeft.y);
+  
+  float dx = bottomRight.x - topLeft.x;
+  float dy = bottomRight.y - topLeft.y;
+  
+  float sx = letterSize/ dx;
+  float sy = letterSize / dy;
+  float ss = min(sx, sy);
+  
+  //fill(0);
+  //text(dx, 20, 20);
+  
+  // add normalised strokes to letter
+  for (i = 0; i < l.size(); i++)
+  {
+    ArrayList s = (ArrayList) l.get(i);
+    nl.add(getNormalisedStroke(s, x, y, ss));
+  }
+  
+  return nl;
+}
+
+ArrayList getNormalisedStroke(ArrayList s, int x, int y, float r)
+{
+  if (s == null) return null;
+  
+  ArrayList ns = new ArrayList();
+  PMatrix2D m = new PMatrix2D();
+  m.scale(r);
+  m.translate(x, y);
+  
+  for (int i = 0; i < s.size(); i++)
+  {
+    PVector ps = (PVector) s.get(i);
+    PVector pd = new PVector();
+    m.mult(ps, pd);
+    ns.add(pd);
+  }
+  
+  return ns;
+}
+
+
+void getBounds(ArrayList s, PVector topLeft, PVector bottomRight)
+{
+  if (s == null) return;
+  
+  for (int i = 0; i < s.size(); i++)
+  {
+    PVector p = (PVector) s.get(i);
+    topLeft.x = min(topLeft.x, p.x);
+    topLeft.y = min(topLeft.y, p.y);
+    bottomRight.x = max(bottomRight.x, p.x);
+    bottomRight.y = max(bottomRight.y, p.y);
+  }
+}
+
+
+void drawStroke(ArrayList s)
+{
+  if (s == null) return;
+
+  PVector lp;
+  for (int i = 0; i < s.size(); i++)
+  {
+    PVector p = (PVector) s.get(i);
+    if (i != 0) { stroke(0); strokeWeight(4); line(lp.x, lp.y, p.x, p.y); }
+    lp = p;
+  }
+}
+
+//............................................................
+</script><canvas></canvas></body></html>
+

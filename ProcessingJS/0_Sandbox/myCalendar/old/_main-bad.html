@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var events = {};
+      function addEvent(year, month, day, type, text)
+      {
+        var date = new Date(year, month-1, day);
+        date.setHours(0,0,0,0);
+        events[date] = {type: type, text:text};
+      }
+    </script>
+    <script src="events.js"></script>
+  
+      <style>
+      td, tr, table
+      {
+        border-collapse:collapse;
+        margin:0;
+        padding:0;
+      }
+  </style>
+  </head>
+  <body onload="myFunction()" style="margin:0">
+    <table id="myTable" style="border-collapse:collapse; width:100%; height:100%">
+        <thead>
+        <tr>
+          <th></th>
+          <th width="78px" ><b><font size="+2">2016</font></b></th>
+          <th width="78px" style="border-bottom: 1px solid #000000;">Mon</th>
+          <th width="78px" style="border-bottom: 1px solid #000000;">Tue</th>
+          <th width="78px" style="border-bottom: 1px solid #000000;">Wed</th>
+          <th width="78px" style="border-bottom: 1px solid #000000;">Thr</th>
+          <th width="78px" style="border-bottom: 1px solid #000000;">Fri</th>
+          <th width="78px" style="border-bottom: 1px solid #000000;">Sat</th>
+          <th width="78px" style="border-bottom: 1px solid #000000;">Sun</th>
+          <th align="left"></th>
+        </tr>
+        </thead>
+    </table>
+
+    <script>
+    function myFunction() 
+    {
+      var table = document.getElementById("myTable");
+      
+      var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      var date = new Date(2016, 0, 1); date.setHours(0,0,0,0);
+      var weekDay = date.getDay();
+
+      var start = false;
+      
+      var today = new Date(); today.setHours(0,0,0,0);
+      var todayMonth = today.getMonth();
+      
+      var weekStartDate = new Date(today.getFullYear(), today.getMonth(), today.getDate()); weekStartDate.setHours(0,0,0,0);
+      var weekStartDay = weekStartDate.getDay();
+      var weekStartDayMonFirst = weekStartDay;
+     
+      if (weekStartDay == 0) // Sunday
+      {
+        weekStartDate.setDate(weekStartDate.getDate() - 6);
+        weekStartDayMonFirst = 7;
+      }
+      else
+      {
+        weekStartDate.setDate(weekStartDate.getDate() - (weekStartDay -1));
+        weekStartDayMonFirst = weekStartDayMonFirst;
+      }
+  
+      var sameMonth = false;
+      var lastMonth = -1;
+      var rowSpanCount = 0;
+      
+      var row = table.rows[0];
+      var cell = row.cells[weekStartDayMonFirst+1];
+      //cell.style.color = rgbToHex(255, 0, 0);
+      cell.style.fontWeight = "bold";
+      
+      /*for (var j = 0; j < 10; j++)
+      {
+      cell = row.cells[j];
+      cell.style.backgroundColor = rgbToHex(184, 204, 228);
+      }*/
+     
+      var cell0 = null;
+      var cell1 = null;
+      
+      for (var i = 1; i< 57; i++)
+      {
+        var row = table.insertRow(i);
+        row.style = "border: none !important;";
+        
+        var shadow = false;
+        if (date - weekStartDate < 0) shadow = true;
+        
+        var startCellId = 0;
+        var endCellId = 6;
+        
+        var month = date.getMonth();
+        rowSpanCount++;
+        if (date.getMonth() != lastMonth)
+        {
+          if (cell0 != null)
+          {
+            cell0.rowSpan = rowSpanCount;
+            cell1.rowSpan = rowSpanCount;
+          }
+          
+          cell0 = row.insertCell(0);
+          cell1 = row.insertCell(1);
+          cell1.style.paddingRight = "10px"; 
+          
+          if (month % 2 == 0)
+          {
+            cell0.style.backgroundColor = rgbToHex(198, 207, 216);
+            cell1.style.backgroundColor = cell0.style.backgroundColor;
+          }
+          else
+          {
+            cell0.style.backgroundColor = rgbToHex(230, 240, 250);
+            cell1.style.backgroundColor = cell0.style.backgroundColor;
+          }
+          
+          cell0.innerHTML = month+1;
+          cell0.style.color = rgbToHex(150, 150, 150);
+          cell1.innerHTML = monthNames[month];
+          if (month == todayMonth)
+          {
+            //cell1.style.color = rgbToHex(255, 0, 0);
+            cell1.style.fontWeight = "bold";
+          }
+          else if (month < todayMonth)
+          {
+            cell1.style.color = rgbToHex(150, 150, 150);
+          }
+          
+          startCellId = 2;
+          endCellId = 8;
+          rowSpanCount = 0;
+          lastMonth = date.getMonth();
+        }
+        
+        var weekText = "";
+        for (var j = startCellId; j<=endCellId; j++)
+        {
+          var cell = row.insertCell(j);
+          //cell.style = "border: none !important; height:18px;";
+          cell.style = "width:84; height:40; text-align:center;";
+          if (start == false && (j == weekDay+1 || (j==8 && weekDay==0))) start = true;
+          
+          if (j == startCellId) cell.style.borderLeft = "1px solid " + rgbToHex(0, 0, 0);
+          if (j == endCellId) cell.style.borderRight = "1px solid " + rgbToHex(0, 0, 0);
+          weekText = myCell(start, cell, date, today, shadow, weekText);
+          
+        }
+        
+        var cell = row.insertCell(j);
+        cell.style.textAlign = "left";
+        cell.style.paddingLeft = "10px";
+        cell.innerHTML = weekText;
+        if (shadow == true) cell.style.color = rgbToHex(150, 150, 150);
+      }
+      
+      if (cell0 != null)
+      {
+        cell0.rowSpan = rowSpanCount+1;
+        cell1.rowSpan = rowSpanCount+1;
+      }
+    }
+    
+    function myCell(start, cell, date, today, shadow, weekText)
+    {
+      var div1 = document.createElement('div');
+      //div1.style = "border: none !important; position:relative; width:100%; height:100%;";
+      div1.style = "position:relative; margin: auto;  width:100%; height:100%;";
+      cell.appendChild(div1);
+      
+      var div2 = document.createElement('div');
+      div2.style = "border: none !important; position:absolute; top:0px; left:0px; bottom: 0; right: 0;";
+      div1.appendChild(div2);
+      
+      //div2.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg'><circle cx='43px' cy='11px' r='10' fill='rgba(255,0,0,0.5)' /></svg>";
+      
+      var div3 = document.createElement('div');
+      div3.style = "border: none !important; position:absolute; top:0px; left:0px; bottom: 0; right: 0;";
+      div1.appendChild(div3);
+      var table = document.createElement('table');
+      table.style = "border: none !important; width:100%; height:100%;";
+      div3.appendChild(table);
+      var row = table.insertRow(0);
+      var cell1 = row.insertCell(0);
+      cell1.style="border: none !important; text-align:center; vertical-align:center;";
+      
+      var divShadow = document.createElement('div');
+      divShadow.style = "border: none !important; position:absolute; top:0px; left:0px; bottom: 0; right: 0; background-color: rgba(0,0,0,0.4);";
+      //div1.appendChild(divShadow);
+      
+      var weekDay = date.getDay();
+      var monthDay = date.getDate();
+      var month = date.getMonth();
+      
+      
+      var r = 255;
+      var g = 255;
+      var b = 255;
+      
+      var cellR = 0;
+      var cellG = 0;
+      var cellB = 0;
+      
+      if (start == true)
+      {
+      
+        cell1.innerHTML = monthDay;
+      
+      if (month % 2 == 0)
+      {
+        //cell.style.color = rgbToHex(83, 141, 213);
+        //cellR = 83; cellG = 141; cellB = 213;
+        //if (shadow == true) cell.style.color = rgbToHex(33, 56, 85);
+        //if (shadow == true) cell.style.color = rgbToHex(83, 106, 135);
+        r = 220; g = 230; b = 241;
+        cell1.style.color = rgbToHex(83, 141, 213);
+        //cell.style.backgroundColor = rgbToHex(220, 230, 241);
+      }
+      else
+      {
+        //cell.style.color = rgbToHex(0, 0, 0);
+        //cellR = 0; cellG = 0; cellB = 0;
+        //if (shadow == true) cell.style.color = rgbToHex(80, 80, 80);
+        r = 255; g = 255; b = 255;
+        cell1.style.color = rgbToHex(0, 0, 0);
+        //cell.style.backgroundColor = rgbToHex(255, 255, 255);
+      }
+      
+      if (weekDay == "6" || weekDay == "0")
+      {
+        r = r +(255-r)/4;
+        g = g +(255-g)/4;
+        b = b +(0-b)/4;
+        
+        var longWeekend = false;
+        var tempDate1 = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        tempDate1.setHours(0,0,0,0);
+        var tempDate2 = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        tempDate2.setHours(0,0,0,0);
+        
+        if (weekDay == 6)
+        {
+          tempDate1.setDate(date.getDate() - 1);
+          tempDate2.setDate(date.getDate() + 2);
+        }
+        
+        if (weekDay == 0)
+        {
+          tempDate1.setDate(date.getDate() - 2);
+          tempDate2.setDate(date.getDate() + 1);
+        }
+        
+        
+        if 
+        (
+        (events[tempDate1] != null && (events[tempDate1].type == "P" || events[tempDate1].type == "H"))
+        ||
+        (events[tempDate2] != null && (events[tempDate2].type == "P" || events[tempDate2].type == "H"))
+        )
+        {
+          longWeekend = true;
+        }
+        
+        if (longWeekend == true)
+        {
+          r = r +(220-r)/2;
+          g = g +(160-g)/2;
+          b = b +(160-b)/2;
+        }
+        
+        if (weekDay == 6)
+        {
+          cell.style.borderLeft = "1px solid " + rgbToHex(196, 215, 155);//#C4D79B";
+          if (shadow == true) cell.style.borderLeft = "1px solid " + rgbToHex(98, 106, 76);
+          //else if (date < today) cell.style.borderLeft = "1px solid " + rgbToHex(127, 142, 94);
+        }
+      }
+      
+      
+      
+      
+      if (date.toDateString() == today.toDateString()) cell.style.border = "4px solid #000000";
+      
+      if (events[date] != null)
+      {
+        if (weekText.length > 0) weekText = weekText + ", ";
+        weekText = weekText + events[date].text;
+        
+        if (events[date].type == "P")
+        {
+          r = r +(255-r)/2.5;
+          g = g +(60-g)/2.5;
+          b = b +(60-b)/2.5;
+          
+          //cellR = 220;
+          //cellG = 0;
+          //cellB = 0;
+          cell1.style.color = rgbToHex(220, 0, 0);
+          //cell.style.backgroundColor = rgbToHex(255, 60, 60);
+          cell1.style.fontWeight = "bold";
+        }
+        
+        if (events[date].type == "H")
+        {
+          r = r +(255-r)/2.5;
+          g = g +(190-g)/2.5;
+          b = b +(0-b)/2.5;
+          
+          //cellR = 0;
+          //cellG = 0;
+          //cellB = 0;
+          cell1.style.color = rgbToHex(0, 0, 0);
+          cell1.style.fontWeight = "bold";
+        }
+        
+        
+        
+        
+        
+        if (events[date].type == "E")
+        {
+          //r = r +(100-r)/2.5;
+          //g = g +(100-g)/2.5;
+          //b = b +(190-b)/2.5;
+          
+          //cellR = 50;
+          //cellG = 50;
+          //cellB = 50;
+          //div2.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg'><circle cx='43px' cy='11px' r='10' fill='rgba(100,100,190,0.3)' /></svg>";
+          
+          cell1.style.color = rgbToHex(0, 0, 0);
+          cell1.style.fontWeight = "bold";
+        }
+        
+        if (events[date].type == "E2")
+        {
+          //r = r +(0-r)/2.5;
+          //g = g +(190-g)/2.5;
+          //b = b +(0-b)/2.5;
+          
+          //cellR = 50;
+          //cellG = 50;
+          //cellB = 50;
+          //div2.innerHTML = "<svg xmlns='http://www.w3.org/2000/svg'><circle cx='43px' cy='11px' r='10' fill='rgba(0,190,0,0.3)' /></svg>";
+          
+          cell1.style.color = rgbToHex(0, 0, 0);
+          cell1.style.fontWeight = "bold";
+        }
+      }
+      
+      
+      r = parseInt(r);
+      g = parseInt(g);
+      b = parseInt(b);
+      div1.style.backgroundColor = rgbToHex(r, g, b);
+      
+      
+      }
+      
+      if (shadow == true || start == false)
+      {
+        div1.appendChild(divShadow);
+        /*r = r +(0-r)/1.6;
+        g = g +(0-g)/1.6;
+        b = b +(0-b)/1.6;
+        
+        if (month % 2 == 0)
+        {
+          cellR = cellR +(80-cellR)/1.6;
+          cellG = cellG +(80-cellG)/1.6;
+          cellB = cellB +(80-cellB)/1.6;
+        }
+        else
+        {
+          cellR = cellR +(120-cellR)/1.6;
+          cellG = cellG +(120-cellG)/1.6;
+          cellB = cellB +(120-cellB)/1.6;
+        }*/
+      }
+      else
+      {
+        if (date < today)
+        {
+          r = r +(0-r)/5;
+          g = g +(0-g)/5;
+          b = b +(0-b)/5;
+          
+          //cellR = cellR +(190-cellR)/5;
+          //cellG = cellG +(190-cellG)/5;
+          //cellB = cellB +(190-cellB)/5;
+        }
+      }
+      
+      //r = parseInt(r);
+      //g = parseInt(g);
+      //b = parseInt(b);
+      
+      //cellR = parseInt(cellR);
+      //cellG = parseInt(cellG);
+      //cellB = parseInt(cellB);
+      
+
+      
+      //cell.style.backgroundColor = rgbToHex(r, g, b);
+      //cell.style.color = rgbToHex(cellR, cellG, cellB);
+      
+      if (start == true)
+      date.setDate(date.getDate() + 1);
+      
+      return weekText;
+    }
+    
+    function rgbToHex(r, g, b) 
+    {
+      return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    }
+    
+    </script>
+    <p>
+    <a href="events.js">Events</a>
+  </body>
+</html>

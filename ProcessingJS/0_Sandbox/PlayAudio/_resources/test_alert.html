@@ -1,0 +1,127 @@
+<html><body><script src="../processing.js"></script><script type="application/processing" >
+int offset = 20;
+void myPrint(String s) { text(s, 10, offset); offset += 20; }
+//............................................................
+
+//https://developer.mozilla.org/en-US/docs/HTML/Using_HTML5_audio_and_video
+//http://www.storiesinflight.com/html5/audio.html
+
+// using HashMap instead of ArrayList
+
+class MyAudio
+{
+  var mediaElement;
+  float v, d;
+  float offset;
+  boolean playing;
+  
+  MyAudio(String src, float offset)
+  {
+    mediaElement = new Audio();
+    mediaElement.src = src;
+    mediaElement.load();
+    this.offset = offset;
+    playing = false;
+  }
+  
+  void play()
+  {
+    if (playing == false)
+    {
+      d = 0;
+      v = 1;
+      mediaElement.currentTime = offset;
+      mediaElement.play();
+      playing = true;
+    }
+  }
+  
+  void decay()
+  {
+    d = -0.01;
+    playing = false;
+  }
+  
+  void update()
+  {
+    v += d;
+    if (v > 1) v=1;
+    if (v < 0) v=0;
+    
+    if (v == 0) {mediaElement.pause; playing = false;}
+    else {mediaElement.volume = v; }
+  }
+}
+
+
+//ArrayList a = new ArrayList();
+HashMap a = new HashMap();
+
+
+void setup()
+{
+	size(400, 400, P2D); textFont(loadFont("arials"), 15); fill(190);
+	//alert("A");
+  
+  //a.add(new MyAudio("Kalimba.mp3", 0));
+  //a.add(new MyAudio("Blow.mp3", 30));
+  a.put('q', new MyAudio("Kalimba.mp3", 0));
+  a.put('w', new MyAudio("Kalimba2.mp3", 0));
+  a.put('e', new MyAudio("Kalimba.mp3", 0));
+  a.put(' ', new MyAudio("Blow.mp3", 30));
+}
+
+void mousePressed()
+{
+}
+
+void mouseReleased()
+{
+}
+
+void keyPressed()
+{
+  //if (key == 'q') {((MyAudio)a.get(0)).play();}
+  //if (key == 'w') {((MyAudio)a.get(1)).play();}
+  ((MyAudio)a.get(key)).play();
+}
+
+void keyReleased()
+{
+  //if (key == 'q') {((MyAudio)a.get(0)).decay();}
+  //if (key == 'w') {((MyAudio)a.get(1)).decay();}
+  ((MyAudio)a.get(key)).decay();
+}
+
+void draw()
+{
+	background(250);offset = 20;
+
+  //for (int i = 0; i < a.size(); i++)
+  //{
+  //  ((MyAudio)a.get(i)).update();
+  //}
+  
+  Iterator i = a.entrySet().iterator();  // Get an iterator
+  while (i.hasNext()) 
+  {
+    Map.Entry me = (Map.Entry)i.next();
+    //print(me.getKey() + " is ");
+    //println(me.getValue());
+    ((MyAudio)me.getValue()).update();
+  }
+}
+
+
+
+//............................................................
+</script><canvas></canvas>
+
+<br/>
+<!-- DON'T NEED THIS IF CREATING IN PROCESSING -->
+<!--audio id="audiotag1" controls src="Blow.mp3">
+Your browser does not support the audio element.
+</audio-->
+
+</body></html>
+

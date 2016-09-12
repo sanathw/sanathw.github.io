@@ -1,0 +1,214 @@
+<html>
+<body>
+  <script>
+    var codeMap = {};
+    codeMap['A'] = ".-";
+    codeMap['B'] = "-...";
+    codeMap['C'] = "-.-.";
+    codeMap['D'] = "-..";
+    codeMap['E'] = ".";
+    codeMap['F'] = "..-.";
+    codeMap['G'] = "--.";
+    codeMap['H'] = "....";
+    codeMap['I'] = "..";
+    codeMap['J'] = ".---";
+    codeMap['K'] = "-.-";
+    codeMap['L'] = ".-..";
+    codeMap['M'] = "--";
+    codeMap['N'] = "-.";
+    codeMap['O'] = "---";
+    codeMap['P'] = ".--.";
+    codeMap['Q'] = "--.-";
+    codeMap['R'] = ".-.";
+    codeMap['S'] = "...";
+    codeMap['T'] = "-";
+    codeMap['U'] = "..-";
+    codeMap['V'] = "...-";
+    codeMap['W'] = ".--";
+    codeMap['X'] = "-..-";
+    codeMap['Y'] = "-.--";
+    codeMap['Z'] = "--..";
+    codeMap['.'] = ".-.-.-";
+    codeMap[','] = "--..--";
+    codeMap['?'] = "..--..";
+    codeMap['/'] = "-..-.";
+    codeMap['@'] = ".--.-.";
+    codeMap['1'] = ".----";
+    codeMap['2'] = "..---";
+    codeMap['3'] = "...--";
+    codeMap['4'] = "....-";
+    codeMap['5'] = ".....";
+    codeMap['6'] = "-....";
+    codeMap['7'] = "--...";
+    codeMap['8'] = "---..";
+    codeMap['9'] = "----.";
+    codeMap['0'] = "-----";
+    
+    
+    var inputText = "SOS SOS";
+    var morseCode = "|.,.,.|-,-,-|.,.,. |.,.,.|-,-,-|.,.,.";
+    
+
+    var dotAudio = new Audio("sounds/dot.wav");                 dotAudio.addEventListener("ended", playMorseCode, false);
+    var dashAudio = new Audio("sounds/dash.wav");               dashAudio.addEventListener("ended", playMorseCode, false);
+    var spaceAudio = new Audio("sounds/space.wav");             spaceAudio.addEventListener("ended", playMorseCode, false);
+    var spaceLetterAudio = new Audio("sounds/spaceLetter.wav"); spaceLetterAudio.addEventListener("ended", playMorseCode, false);
+    var spaceWordAudio = new Audio("sounds/spaceWord.wav");     spaceWordAudio.addEventListener("ended", playMorseCode, false);
+
+    var dotImage = new Image("images/dot.png");
+    var dashImage = new Image("images/dash.png");
+    var spaceImage = new Image("images/space.png");
+    var spaceLetterImage = new Image("images/spaceLetter.png");
+    var spaceWordImage = new Image("images/spaceWord.png");
+
+    var letter = 0;
+    var i = 0;
+    
+    function getLetter()
+    {
+    console.log(letter);
+    var image = "";
+      morseCode = "";
+      if (letter >= inputText.length) return;
+      var key = inputText[letter].toUpperCase();
+      
+      if (key == " ") 
+      {
+        morseCode = " ";
+    image += "<img src='images/spaceWord.png'/>";
+      }
+      else
+      {
+        morseCode = "|";
+    //image += "<img src='images/spaceLetter.png'/>";
+        var morseLength = codeMap[key].length;
+        for (var c = 0; c < morseLength; c++)
+        {
+          morseCode += codeMap[key][c];
+          
+    if (codeMap[key][c] == '.') image += "<img src='images/dot.png'/>";
+    if (codeMap[key][c] == '-') image += "<img src='images/dash.png'/>";   
+    
+          if (c != morseLength-1) 
+          {
+          morseCode += ",";
+    image += "<img src='images/space.png'/>";
+          }
+        }
+      }
+      
+      i = 0;
+      console.log(morseCode);
+      
+      return image;
+    }
+
+    function playMorseCode()
+    {
+      if (i >= morseCode.length)  {document.getElementById('cell-'+letter).style.backgroundColor = "white"; letter++; getLetter();}
+      if (letter >= inputText.length) {letter = 0; return;}
+      
+      
+      switch(morseCode[i])
+      {
+        case ".": {document.getElementById('cell-'+letter).style.backgroundColor = "yellow"; playAudio(dotAudio); break;}
+        case "-": {document.getElementById('cell-'+letter).style.backgroundColor = "yellow"; playAudio(dashAudio); break;}
+        case ",": playAudio(spaceAudio); break;
+        case "|": playAudio(spaceLetterAudio); break;
+        case " ": playAudio(spaceWordAudio); break
+      }
+      
+      i++;
+    }
+    
+    function playAudio(audio) { audio.currentTime = 0; audio.play(); }
+    
+    function playInput()
+    {
+    
+    dotAudio = new Audio("sounds/dot.wav");                 dotAudio.addEventListener("ended", playMorseCode, false);
+    dashAudio = new Audio("sounds/dash.wav");               dashAudio.addEventListener("ended", playMorseCode, false);
+    spaceAudio = new Audio("sounds/space.wav");             spaceAudio.addEventListener("ended", playMorseCode, false);
+    spaceLetterAudio = new Audio("sounds/spaceLetter.wav"); spaceLetterAudio.addEventListener("ended", playMorseCode, false);
+    spaceWordAudio = new Audio("sounds/spaceWord.wav");     spaceWordAudio.addEventListener("ended", playMorseCode, false);
+    
+    
+      inputText = document.getElementById('inputText').value;
+      letter = 0;
+      i = 0;
+      getLetter();
+      playMorseCode();
+    }
+  </script>
+
+
+  <input id='inputText' style="font-size:25px" type="text">
+  <br>
+  <br>
+  <button onclick="playInput()">Play</button>
+  <br>
+  <br>
+  <table id="inputTable" border="1">
+  </table>
+  
+  <script>
+  function setup()
+  {
+    var totalCells = 0;
+    
+    document.getElementById('inputText').onkeypress = function(event) 
+    {
+      //console.log(event);
+      if (event.which == 13 || event.keyCode == 13) 
+      {
+        playInput();
+        return false;
+      }
+      else
+      {
+        var charCode = !event.charCode ? event.which : event.charCode;
+        var key = String.fromCharCode(charCode).toUpperCase();
+        if(key != " " &&  codeMap[key] == null) event.preventDefault();
+      }
+      return true;
+    }
+    
+    document.getElementById('inputText').onkeyup = function(event) 
+    {
+      inputText = document.getElementById('inputText').value;//+key;
+      for (var j = 0; j < totalCells; j++)
+      {
+        document.getElementById('cell-'+j).innerHTML = "";
+      }
+      for (var j = 0; j < inputText.length; j++)
+      {
+      letter = j;
+        //document.getElementById('cell-'+j).innerHTML = inputText[j]; //getLetter();//"<img src='images/dash.png'/>";
+        document.getElementById('cell-'+letter).innerHTML = inputText[j].toUpperCase() + "<br>" + getLetter();
+        //"<img src='" + dashImage.src "'/>";
+        //inputText[j];
+      }
+      letter = 0;
+    }
+    
+    var table = document.getElementById("inputTable");
+    
+    
+    for (var r = 0; r < 2; r++)
+    {
+      var row = table.insertRow(r);
+      for (var t = 0; t < 20; t++)
+      {
+        var cell = row.insertCell(t);
+        cell.id = "cell-" + totalCells
+        cell.innerHTML = "";
+        totalCells++;
+      }
+    }
+  }
+  
+  setup();
+  </script>
+
+</body>
+</html>

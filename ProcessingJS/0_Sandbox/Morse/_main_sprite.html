@@ -1,0 +1,51 @@
+<html>
+<button onclick="myLoad();">Load</button>
+<br>
+<br>
+<br>
+<button onclick="myPlay();">Play</button>
+
+
+<script>
+var audioSprite = new Audio();   //dotAudio.addEventListener("ended", playMorseCode2, false);
+var spriteData =
+{
+  dot:{start: 0, length: 0.08}
+}
+
+var handler = function() 
+{
+    if (this.currentTime >= spriteData.dot.start + spriteData.dot.length) 
+    {
+        console.log(this.currentTime);
+        this.pause();
+    }
+};
+audioSprite.addEventListener('timeupdate', handler, false);
+
+function myLoad()
+{
+  audioSprite.src = "sounds/audioSprite.wav";
+  audioSprite.load();
+}
+
+function myPlay()
+{
+  //alert("A");
+  //document.getElementById("mySnd").play();
+  //var dashAudio = new Audio("sounds/dash.wav");  
+  //dashAudio.play();
+  playDot();
+  
+}
+
+function playDot()
+{
+  audioSprite.currentTime = spriteData.dot.start;
+  audioSprite.play();
+}
+
+
+</script>
+
+</html>
