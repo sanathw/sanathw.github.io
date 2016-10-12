@@ -52,6 +52,9 @@ void draw()
     speedX = mouseX / 100.0;
     speedY = (mouseY+100) / 100.0;
     clockTwinB.SetEtherSpeed(speedX, speedY);
+    
+    if (!start) clockTwinB.ResetLight(clockTwinB.endV1);
+    
     a = atan2(mouseY+100, mouseX);
     d = dist(0, -100, mouseX, mouseY);
   }
@@ -92,6 +95,22 @@ void draw()
     text("Twin A clock (Earth)", -100, 15);
     text("Speed: 0, 0", -100, 30);
     text("Time: " + clockTwinA.Count , 50, 190);
+    
+    pushMatrix();
+    translate(-98, -160);
+    scale(0.6);
+    
+    float speed = mag(speedX, speedY);
+    float lorentz = sqrt(1 - (speed * speed) / 1);//(tick * tick));
+    float clockDiff = 0;
+    if (clockTwinA.Count > 0) clockDiff = clockTwinB.Count / clockTwinA.Count;
+    //text("Lorentz = 1 / sqrt(1- v^2 / c^2)" + nf(speed, 0, 2), 0, 0);
+    fill(0, 0, 255);
+    text("Relative Speed: " + nf(speed, 0, 2), 0, 0);
+    text("Length contraction: " + nf(lorentz, 0, 2), 0, 15);
+    text("Expected Time dilation: " + nf(lorentz, 0, 2), 0, 240);
+    text("Actual Time dilation: " + nf(clockDiff, 0, 2), 0, 255);
+    popMatrix();
   }
   
 }
