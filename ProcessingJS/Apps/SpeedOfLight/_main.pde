@@ -36,7 +36,7 @@ float lengthContaction = 0;
 void setup()
 {
   //doZoom = false; doTranslate = false; doRotate = false;
-  setSize(500, 510, P2D, FIT_INSIDE, this); // this has to be the last line in this function
+  setSize(510, 510, P2D, FIT_INSIDE, this); // this has to be the last line in this function
 }
 
 void drawBackground(var g)
@@ -184,18 +184,38 @@ void draw()
   }
   
   
-  noFill();
+  
   ellipseMode(RADIUS);
   
   if (frameCount % 2 == 0)
   {
-    if (VStartstopped == false || VEndstopped == false) {stroke(255,0,0); ellipse(lightPosV.x, lightPosV.y, lightRadiusV, lightRadiusV);}
-    if (HStartstopped == false || HEndstopped == false) {stroke(0,0,255); ellipse(lightPosH.x, lightPosH.y, lightRadiusH, lightRadiusH);}
+    if (VStartstopped == false || VEndstopped == false) 
+    {
+      stroke(255,0,0); 
+      noFill(); ellipse(lightPosV.x, lightPosV.y, lightRadiusV, lightRadiusV); 
+      fill(255, 0, 0, 50); ellipse(lightPosV.x, lightPosV.y, 10, 10);
+    }
+    if (HStartstopped == false || HEndstopped == false) 
+    {
+      stroke(0,0,255);
+      noFill(); ellipse(lightPosH.x, lightPosH.y, lightRadiusH, lightRadiusH);
+      fill(0, 0, 255, 50); ellipse(lightPosH.x, lightPosH.y, 10, 10);
+    }
   }
   else
   {
-    if (HStartstopped == false || HEndstopped == false) {stroke(0,0,255); ellipse(lightPosH.x, lightPosH.y, lightRadiusH, lightRadiusH);}
-    if (VStartstopped == false || VEndstopped == false) {stroke(255,0,0); ellipse(lightPosV.x, lightPosV.y, lightRadiusV, lightRadiusV);}
+    if (HStartstopped == false || HEndstopped == false) 
+    {
+      stroke(0,0,255);
+      noFill(); ellipse(lightPosH.x, lightPosH.y, lightRadiusH, lightRadiusH);
+      fill(0, 0, 255, 50); ellipse(lightPosH.x, lightPosH.y, 10, 10);
+    }
+    if (VStartstopped == false || VEndstopped == false) 
+    {
+      stroke(255,0,0); 
+      noFill(); ellipse(lightPosV.x, lightPosV.y, lightRadiusV, lightRadiusV); 
+      fill(255, 0, 0, 50); ellipse(lightPosV.x, lightPosV.y, 10, 10);
+    }
   }
   
   
