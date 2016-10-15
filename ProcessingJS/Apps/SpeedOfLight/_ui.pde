@@ -76,20 +76,28 @@ void processUI()
   {
     start = !start;
     bStart.isOn = start;
-    Vstopped = false;
-    Hstopped = false;
+    VEndstopped = false;
+    HEndstopped = false;
+    VStartstopped = false;
+    HStartstopped = false;
   }
   
   if (bReset != null && bReset.doProcess == true) 
   {
-    clockV.Reset(false, 0, 0);
-    clockH.Reset(false, 0, 0);
+    clockStartV.Reset(false, 0, 0);
+    clockStartH.Reset(false, 0, 0);
+    clockEndV.Reset(false, 0, 0);
+    clockEndH.Reset(false, 0, 0);
     lightRadiusV = 0;
     lightRadiusH = 0;
-    lightPosV = new PVector(lightStart.x, lightStart.y);
-    lightPosH = new PVector(lightStart.x, lightStart.y);
-    Vstopped = false;
-    Hstopped = false;
+    lightPosV = new PVector(vStartV.x, vStartV.y);
+    lightPosH = new PVector(vStartV.x, vStartV.y);
+    vEndV = new PVector(vEndVorig.x, vEndVorig.y);
+    vEndH = new PVector(vEndHorig.x, vEndHorig.y);
+    VEndstopped = false;
+    HEndstopped = false;
+    VStartstopped = false;
+    HStartstopped = false;
     speedX = 0;
     speedY = 0;
     speed = 0;
@@ -98,8 +106,10 @@ void processUI()
   if (s1 != null && s1.doProcess == true) 
   {
     tick = s1.curV;
-    clockV.tick = tick;
-    clockH.tick = tick;
+    clockStartV.tick = tick;
+    clockStartH.tick = tick;
+    clockEndV.tick = tick;
+    clockEndH.tick = tick;
   }
 }
 
