@@ -36,7 +36,7 @@ float lengthContaction = 0;
 void setup()
 {
   //doZoom = false; doTranslate = false; doRotate = false;
-  setSize(510, 510, P2D, FIT_INSIDE, this); // this has to be the last line in this function
+  setSize(500, 520, P2D, FIT_INSIDE, this); // this has to be the last line in this function
 }
 
 void drawBackground(var g)
