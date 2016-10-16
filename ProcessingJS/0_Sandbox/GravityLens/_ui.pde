@@ -1,8 +1,8 @@
 //Container c1;
 //Button b1;
-//ScrollBar s1;
+ScrollBar s1;
 //TextBox t1;
-//LabelBox l1;
+LabelBox l1;
 //KeyboardContainer kbContainer;
 //KeyboardCtrl kbctrl1;
 
@@ -25,9 +25,9 @@ void setupUI()
     
     //setContainer(c1);
     //b1 = addButton(.012, .1, .12, .31, "Triangle");
-    //s1 = addScrollBar(0.012, 0.4, .7, .31, 0, 100, 50);
+    s1 = addScrollBar(.20, 0.4, .7, .31, 0, 30, 0);
     //t1 = addTextBox(.012, .48, .76, .2, "");
-    //l1 = addLabelBox(.8, .8, .1, .15, "24");
+    l1 = addLabelBox(0.012, 0.4, .2, .31, "mass");
     //kbContainer = addKeyboardContainer(.14, .78, .632, .2);
     //kbctrl1 = addKeyboardCtrl(0, 0, 1, 1, null);
     //kbctrl1.addLine("1234567890");
@@ -69,7 +69,10 @@ void setupUI()
 
 void processUI()
 {
-  //if (b1 != null && b1.doProcess == true) {}
+  if (s1 != null && s1.doProcess == true) 
+  {
+    mass = s1.curV;
+  }
 }
 
 

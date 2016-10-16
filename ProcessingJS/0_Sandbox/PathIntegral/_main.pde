@@ -5,7 +5,7 @@ PVector lightPos = new PVector(0, -100); int lightRadius = 2;
 PVector bendPos = new PVector(0, 0); int bendRadius = 10;
 PVector detectorPos = new PVector(0, 100); int detectorRadius = 2;
 int paths = 10;
-float seperation = 0.07;
+float seperation = 1.5;
 
 void setup()
 {
@@ -27,17 +27,20 @@ float CalProbB()
   int lastX = 0;
   int lastY = 0;
   
-  for (int h = 0; h < paths; h++)
+  float innerSeperation = 0;
+  if (paths > 1) innerSeperation = seperation / (paths - 1);
+  
+  for (int h = -paths/2; h < paths/2; h++)
   {
     float r = 0.0;
     
     PVector d1vT = new PVector(0, 1);
-    d1vT.div(paths);
+    //d1vT.div(paths);
     
     
     
-    float xtemp = (float) (bendPos.x - (h * seperation * 25));
-    float x = (float) (bendPos.x - (h * seperation));
+    float xtemp = (float) (bendPos.x - (h * innerSeperation * 25));
+    float x = (float) (bendPos.x - (h * innerSeperation));
     float y = (float) (bendPos.y);
     
     r = dist(lightPos.x, lightPos.y, x, y);
@@ -51,8 +54,14 @@ float CalProbB()
     float d = r*r/20.0; // controls the number of interference lines // 50 bigger less
     
     
-    d1vT.x = d1vT.y * sin(d);
-    d1vT.y = d1vT.y * cos(d);
+    d1vT.x = 1 * sin(d);
+    d1vT.y = 1 * cos(d);
+    d1vT.div(paths);
+    
+    //PVector v2_orig = new PVector(0, 1);
+    //PMatrix2D m = new PMatrix2D();
+    //m.rotate(d);
+    //m.mult(v2_orig, d1vT);
     
     d1v1.add(d1vT);
     

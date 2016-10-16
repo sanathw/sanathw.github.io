@@ -28,7 +28,7 @@ void setupUI()
     //setContainer(c1);
     //b1 = addButton(.012, .1, .12, .31, "Triangle");
     s1 = addScrollBar(0.01, 0.1, .7, .31, 1, 100, 10);
-    s2 = addScrollBar(0.01, 0.55, .7, .31, 0, 2, 0.07);
+    s2 = addScrollBar(0.01, 0.55, .7, .31, 0, 10, 1.5);
     //t1 = addTextBox(.012, .48, .76, .2, "");
     l1 = addLabelBox(.75, .1, .15, .31, "24");
     l2 = addLabelBox(.75, .55, .15, .31, "24");
