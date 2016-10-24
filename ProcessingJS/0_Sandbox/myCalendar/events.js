@@ -57,6 +57,7 @@ addEvent(2016, 7, 9, "E1", "Adam - 25 Sedgemoore St Carseldine");
 addEvent(2016, 8, 7, "E1", "Fruit guy - Glenn & Kate for lunch");
 addEvent(2016, 8, 19, "E1", "Hack Day");
 addEvent(2016, 11, 18, "E1", "Hack Day");
+addEvent(2016, 12, 3, "E1", "TechOne HQ End of year party");
 
 
 addEvent(2016, 2, 9, "E2", "xTalk - TR3");
@@ -68,6 +69,6 @@ addEvent(2016, 6, 8, "E2", "xTalk - TR3 - David Kelertas - Singularity / Basic I
 addEvent(2016, 7, 13, "E2", "xTalk - TR3");
 addEvent(2016, 8, 3, "E2", "xTalk - TR3");
 addEvent(2016, 9, 14, "E2", "xTalk - TR3");
-addEvent(2016, 10, 12, "E2", "xTalk - TR3");
-addEvent(2016, 11, 9, "E2", "xTalk - TR3");
-addEvent(2016, 12, 7, "E2", "xTalk - TR3");
+addEvent(2016, 10, 26, "E2", "xTalk - TR4 - Mark Gasiorowski - Stellar Astronomy");
+addEvent(2016, 11, 9, "E2", "xTalk - TR3 -Scott Gibbs - Cool Algorithms");
+addEvent(2016, 12, 7, "E2", "xTalk - TR3 - Jamie Venning - Compilers");

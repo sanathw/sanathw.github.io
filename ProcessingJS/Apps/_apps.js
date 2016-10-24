@@ -5,6 +5,7 @@
 
 var apps = 
 [
+{id:'LengthContraction', name:'Length Contraction', path:'../0_Sandbox/LengthContraction', alts:['one'] },
 {id:'PathIntegral', name:'Path Integral', path:'../0_Sandbox/PathIntegral', alts:['one'] },
 {id:'GravityLens', name:'Gravity Lens', path:'../0_Sandbox/GravityLens', alts:['one'] },
 {id:'', name:'Relativity'},
