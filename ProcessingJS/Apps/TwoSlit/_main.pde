@@ -335,10 +335,15 @@ float CalProbB(int xi, int yi, int lazerYi, ArrayList holes, int ti, boolean use
     r = r + sqrt((x*x) + (y*y));
     //r = (x*x) + (y*y) - (t*t);
     
+    // Feynman p27
+    //float d = r/0.8;// r*r/80; // controls the number of interference lines // 50 bigger less
+    
+    // Brian Cox p49, p67
     float d = r*r/80; // controls the number of interference lines // 50 bigger less
     
     r = r * 100.0;
     
+    // Feynman p89 (Interval)
     r = (r*r) - (t*t);
     
     float rp = 1.0/(1.0+(r*r/30000000000000.0));

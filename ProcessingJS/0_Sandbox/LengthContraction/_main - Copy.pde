@@ -32,14 +32,19 @@ void setup()
   }
   
   float normalise = 0;
-  for (int i = 0; i < 40; i++)
+  for (int i = 0; i < 20; i++)
   {
     //float a = 1 / (1 + i *2);
-    a = (1/40);///sqrt(400);  
+    a = (1/40);///sqrt(400);
     
-    Clock c = (Clock) prob[200-20+i];
+    Clock c = (Clock) prob[200+i];
     c.amplitude = a;
-    c.angle = i/10;// 0;//PI*i/20;      //SPEED...if 0 then stationary!
+    c.angle = 0;//PI*i/20;
+    normalise = normalise + c.amplitude;
+    
+    c = (Clock) prob[200-i];
+    c.amplitude = a;
+    c.angle = 0;//PI*i/20;
     normalise = normalise + c.amplitude;
   }
   
@@ -86,7 +91,7 @@ void draw()
     
     Clock c = (Clock) prob2[j];
     
-    for (int i = 0; i < 40; i++)
+    for (int i = 0; i < 20; i++)
     { 
       // Brian Cox p49 
       // winding = (m x^2) / 2ht
@@ -97,18 +102,25 @@ void draw()
       float r = 0;
       float w = 0;
       
-      m = 200-20+i;
+      m = 200+i;
       r = j - m;
-      //w = (r * r) / t;
-      w = (r * r)  / ( 50 * (1+t));  // HAVE to divide by 50 to get rid of initial duplicate ossicalations
+      w = (r * r) / t;
       Clock c1 = (Clock) prob[m];
       //a = a + (c1.angle + m*m / t);
-      w = w + c1.angle;
       x = x + sin(w) * c1.amplitude / outcomes;
       y = y + cos(w) * c1.amplitude / outcomes;
+      
+      m = 200-i;
+      r = j - m;
+      w = (r * r) / t;
+      Clock c2 = (Clock) prob[m];
+      //a = a + (c2.angle + m*m / t);
+      x = x + sin(w) * c2.amplitude / outcomes;
+      y = y + cos(w) * c2.amplitude / outcomes;
     }
     
     c.amplitude = (x * x) + (y * y);
+    
     normalise = normalise + c.amplitude;
   }
   
