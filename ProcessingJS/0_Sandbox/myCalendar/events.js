@@ -18,6 +18,8 @@ addEvent(2016, 10, 3, "P", "Queen's Birthday");
 addEvent(2016, 12, 25, "P", "Christmas Day");
 addEvent(2016, 12, 26, "P", "Boxing Day");
 addEvent(2016, 12, 27, "P", "Holiday for missing weekend");
+addEvent(2017, 1, 1, "P", "New Years Day");
+addEvent(2017, 1, 2, "P", "Holiday for missing weekend");
 
 
 // Applied for Holidays
