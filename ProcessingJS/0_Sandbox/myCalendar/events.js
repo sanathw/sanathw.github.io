@@ -7,6 +7,7 @@ addEvent(2008, 8, 9, "R", "Wedding Anniversary");
 
 
 // Standard Holidays (can change each year)
+// https://www.qld.gov.au/recreation/travel/holidays/public/
 addEvent(2016, 1, 1, "P", "New Year's Day");
 addEvent(2016, 1, 26, "P", "Australia Day");
 addEvent(2016, 3, 25, "P", "Good Friday");
@@ -20,6 +21,15 @@ addEvent(2016, 12, 26, "P", "Boxing Day");
 addEvent(2016, 12, 27, "P", "Holiday for missing weekend");
 addEvent(2017, 1, 1, "P", "New Years Day");
 addEvent(2017, 1, 2, "P", "Holiday for missing weekend");
+addEvent(2017, 1, 26, "P", "Australia Day");
+addEvent(2017, 4, 14, "P", "Good Friday");
+addEvent(2017, 4, 17, "P", "Easter Monday");
+addEvent(2017, 4, 25, "P", "Anzac Day");
+addEvent(2016, 5, 1, "P", "Labor Day");
+addEvent(2017, 8, 16, "P", "Ekka");
+addEvent(2017, 10, 2, "P", "Queen's Birthday");
+addEvent(2017, 12, 25, "P", "Christmas Day");
+addEvent(2017, 12, 26, "P", "Boxing Day");
 
 
 // Applied for Holidays
@@ -35,12 +45,17 @@ addEvent(2016, 11, 25, "H", "Abby Bridge Tweed Heads");
 addEvent(2016, 12, 28, "H", "");
 addEvent(2016, 12, 29, "H", "");
 addEvent(2016, 12, 30, "H", "");
+addEvent(2017, 1, 13, "H", "Abby's delayed birthday");
 addEvent(2017, 1, 16, "H", "Abby Bridge Canberra");
 addEvent(2017, 1, 17, "H", "");
 addEvent(2017, 1, 18, "H", "");
 addEvent(2017, 1, 19, "H", "");
 addEvent(2017, 1, 20, "H", "");
-
+addEvent(2017, 1, 27, "H", "");
+addEvent(2017, 4, 10, "H", "Sue Jacob Nick from England");
+addEvent(2017, 4, 11, "H", "");
+addEvent(2017, 4, 12, "H", "");
+addEvent(2017, 4, 13, "H", "");
 
 // Events
 addEvent(2016, 2, 21, "E1", "Mormons 6pm");
@@ -60,8 +75,6 @@ addEvent(2016, 8, 7, "E1", "Fruit guy - Glenn & Kate for lunch");
 addEvent(2016, 8, 19, "E1", "Hack Day");
 addEvent(2016, 11, 18, "E1", "Hack Day");
 addEvent(2016, 12, 3, "E1", "TechOne HQ End of year party");
-
-
 addEvent(2016, 2, 9, "E2", "xTalk - TR3");
 addEvent(2016, 3, 2, "E2", "xTalk - TR3");
 addEvent(2016, 3, 16, "E2", "xTalk - Julian TR3");
