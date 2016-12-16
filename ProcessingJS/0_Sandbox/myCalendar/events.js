@@ -25,7 +25,7 @@ addEvent(2017, 1, 26, "P", "Australia Day");
 addEvent(2017, 4, 14, "P", "Good Friday");
 addEvent(2017, 4, 17, "P", "Easter Monday");
 addEvent(2017, 4, 25, "P", "Anzac Day");
-addEvent(2016, 5, 1, "P", "Labor Day");
+addEvent(2017, 5, 1, "P", "Labor Day");
 addEvent(2017, 8, 16, "P", "Ekka");
 addEvent(2017, 10, 2, "P", "Queen's Birthday");
 addEvent(2017, 12, 25, "P", "Christmas Day");
