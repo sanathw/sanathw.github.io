@@ -30,6 +30,8 @@ addEvent(2017, 8, 16, "P", "Ekka");
 addEvent(2017, 10, 2, "P", "Queen's Birthday");
 addEvent(2017, 12, 25, "P", "Christmas Day");
 addEvent(2017, 12, 26, "P", "Boxing Day");
+addEvent(2018, 1, 1, "P", "New Year's Day");
+addEvent(2018, 1, 26, "P", "Australia Day");
 
 
 // Applied for Holidays
