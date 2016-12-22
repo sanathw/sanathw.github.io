@@ -1,4 +1,4 @@
-var startYear = 2016;
+var startYear = 2017;
 
 //Recuring events (does not change)
 addEvent(1972, 10, 5, "R", "My Birthday");
@@ -87,3 +87,4 @@ addEvent(2016, 9, 14, "E2", "xTalk - TR3");
 addEvent(2016, 10, 26, "E2", "xTalk - TR4 - Mark Gasiorowski - Stellar Astronomy");
 addEvent(2016, 11, 14, "E2", "xTalk - TR3 -Scott Gibbs - Cool Algorithms");
 addEvent(2016, 12, 7, "E2", "xTalk - TR3 - Jamie Venning - Compilers");
+addEvent(2017, 1, 8, "E1", "Bimal and Ashanthi");

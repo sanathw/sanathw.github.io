@@ -58,6 +58,7 @@ var apps =
 {id:'BridgeBid', name:'BridgeBid', path:'../0_Sandbox/BridgeBid', alts:['one'] },
 {id:'Filter', name:'Filter', path:'../0_Sandbox/Filter', alts:['one'] },
 {id:'Predator', name:'Predator', path:'../0_Sandbox/Predator', alts:['one'] },
+{id:'NoIdea', name:'No Idea', path:'../0_Sandbox/NoIdea', alts:['Example'] },
 {id:'', name:'Template'},
 {id:'Template', name:'Template', path:'../0_Sandbox/0_Template', alts:['Example'] }
 ];
