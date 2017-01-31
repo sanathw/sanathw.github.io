@@ -2,20 +2,6 @@
 //.......................................................................
 
 
-// When the second semi-transparent mirror is there - you get INTERFERENCE,
-// with the laser light ONLY coming out of D1 ALL the time! 
-// This is because D2 gets interference and is 0 ALL the time!
-// But if you put a detector in the middle to see which path the photon uses...
-// the interference dissapears and D1 and D2 fire equally 50% of the time.  
-// SEE the logic below (second set of comments) to see how that happens.
-
-// The key to this simulation is:
-// 1) A Detector has 0% probability - if the path goes accross another detector that has 100% interaction.
-// 2) The sum of the above probabilities is used to calculate the probability of the first hit.
-// 3) If the first hit doesn't happen...then it's probability is given to the remaining detectors.
-// (Note: this way...the first interaction does not always win, and if none of the interactions happened..then the last interaction will be 100%.
-//  So there is NO chance of a photon vanishig from the Universe because no matter interacted with it)
-
 // NOTE: This is a MACH-ZEHNDER Inteferometer
 // Reflecting from the FRONT or BACK of the glass MATTERS!!!
 // A normal mirror reflects from the front
@@ -69,9 +55,6 @@
 
 //PGraphics2D g;
 
-//int temp1 = 0;
-//int temp2 = 0;
-
 int detectorDistance = 0;
 boolean start = false;
 boolean useMirror = false;
@@ -86,14 +69,6 @@ boolean fire = false;
 float d1p = 0;
 float d2p = 0;
 boolean detector2On = false;
-
-boolean useDetectorA = false;
-boolean useDetectorB = false;
-boolean detectorAOn = false;
-boolean detectorBOn = false;
-boolean useBluePathOnly = false;
-boolean useRedPathOnly = false;
-
 
 float[] d1Data = new float[60];
 float[] d2Data = new float[60];
@@ -152,191 +127,6 @@ void draw()
 {
   initDraw();
   
-  fire = false;
-  
-  if (start)
-  {
-  
-    stroke(255, 190, 0);
-    strokeWeight(1);
-    line(-85,60, -70, 60 + -20);
-    line(-85,60, -70, 60 + -10);
-    line(-85,60, -70, 60 + 10);
-    line(-85,60, -70, 60 + 20);
-  
-    if (fast) fire = true;
-    else
-    {
-      if (frameCount % 10 == 0) fire = true;
-    }
-  }
-  
-  
-  int numberOfMiddleDetectors = 0;
-  if (useDetectorA) numberOfMiddleDetectors += 1;
-  if (useDetectorB) numberOfMiddleDetectors += 1;
-  
-  // Below is the logic of what happens when there are detectors in the middle.
-  // CREATE and SEE a screenshot of the app ui (with all detectors visible) to understand the description below:
-  
-  // WITH second Semi-transparent mirror
-  // if ONE detector in the middle...you actually have 3 detectors (one middle, D1, D2).
-  //   if DA is the middle detector then:
-  //         One path to DA
-  //         One path to D1 (red)
-  //         One path to D2 (red)
-  //      The blue path to D1 and D2 is knocked out (0%) because DA would take it.
-  //      The probability of each detector is 1/3 (since there are three)
-  //      The first detector to 'check' is DA since it is closer.
-  //1)    if DA hits (probability of 1/3):
-  //         The red path dissappears.
-  //         Then a NEW experiment STARTS from DA (top blue path)
-  //         So D1 and D2 start with the top part of the blue path and then each have a SINGLE path of 50% after the top semi-transparent mirror (i.e. no interference).
-  //2)    if DA is NOT hit:
-  //         The blue path dissappears.
-  //         DA's probability (1/3) is divided up equally and given to the remaining D1 and D2.
-  //         The red path remains.
-  //         So D1 and D2 start with all the red path and then each have a SINGLE path of 50% after the top semi-transparent mirror (i.e. no interference).
-  //   if DB is the middle detector then:
-  //         One path to DB
-  //         One path to D1 (blue)
-  //         One path to D2 (blue)
-  //      The red path to D1 and D2 is knocked out (0%) because DB would take it.
-  //      The probability of each detector is 1/3 (since there are three)
-  //      The first detector to 'check' is DB since it is closer.
-  //3)    if DB hits (probability of 1/3):
-  //         The blue path dissappears.
-  //         Then a NEW experiment STARTS from DB (right red path)
-  //         So D1 and D2 start with the right part of the red path and then each have a SINGLE path of 50% after the top semi-transparent mirror (i.e. no interference).
-  //4)    if DB is NOT hit:
-  //         The red path dissappears.
-  //         DB's probability (1/3) is divided up equally and given to the remaining D1 and D2.
-  //         The blue path remains.
-  //         So D1 and D2 start with all the blue path and then each have a SINGLE path of 50% after the top semi-transparent mirror (i.e. no interference).
-  // if TWO detectors in the middle...you ONLY have 2 detectors (DA and DB)....because the paths to D1 and D2 get knocked out.
-  // Probability to DA and DB is 50% each.....since the probaboility to D1 and D2 = 0%
-  //5)  if DA is hit, then the experiment starts from there - go to 1) above
-  //    if DA is NOT hit...then give it's probability (50%) to the remaining paths...so DB gets it and becomes 100%...so go to 6)
-  //6)  if DB is hit, then the experiment starts from there - go to 3) above
-  //    if DB is NOT hit...then give it's probability (50%) to the remaining paths...so DA gets it and becomes 100%...so go to 5)
-  //
-  // WITHOUT second Semi-transparent mirror
-  // if ONE detector in the middle...you actually ONLY have 2 detectors (one middle, and either D1 or D2).
-  //   if DA is the middle detector then:
-  //         One path to DA
-  //         One path to D2 (red)
-  //      The blue path to D1 is knocked out (0%) because DA would take it.
-  //      The probability of each detector is 1/2 (since there are two)
-  //      The first detector to 'check' is DA since it is closer.
-  //1a)   if DA hits (probability of 1/2):
-  //         The red path dissappears.
-  //         Then a NEW experiment STARTS from DA (top blue path)
-  //         So D1 start with the top part of the blue path and then it has a SINGLE path of 100%.
-  //2a)   if DA is NOT hit:
-  //         The blue path dissappears.
-  //         DA's probability (1/2) is divided up equally and given to the remaining ... in this case only D2.
-  //         The red path remains.
-  //         So D2 start with all the red path and then have a SINGLE path of 100% (50%+50%).
-  //   if DB is the middle detector then:
-  //         One path to DB
-  //         One path to D2 (blue)
-  //      The red path to D2 is knocked out (0%) because DB would take it.
-  //      The probability of each detector is 1/2 (since there are two)
-  //      The first detector to 'check' is DB since it is closer.
-  //3a)   if DB hits (probability of 1/2):
-  //         The blue path dissappears.
-  //         Then a NEW experiment STARTS from DB (right red path)
-  //         So D2 start with the right part of the red path and it has a SINGLE path of 100%.
-  //4a)   if DB is NOT hit:
-  //         The red path dissappears.
-  //         DB's probability (1/2) is divided up equally and given to the remaining ... in this case only D1.
-  //         The blue path remains.
-  //         So D1 start with all the blue path and then have a SINGLE path of 100% (50%+50%).
-  // if TWO detectors in the middle...you ONLY have 2 detectors (DA and DB)....because the paths to D1 and D2 get knocked out.
-  // Probability to DA and DB is 50% each.....since the probaboility to D1 and D2 = 0%
-  //5a) if DA is hit, then the experiment starts from there - go to 1a) above
-  //    if DA is NOT hit...then give it's probability (50%) to the remaining paths...so DB gets it and becomes 100%...so go to 6a)
-  //6a) if DB is hit, then the experiment starts from there - go to 3a) above
-  //    if DB is NOT hit...then give it's probability (50%) to the remaining paths...so DA gets it and becomes 100%...so go to 5a)
-  //
-  //
-  // So what this means is that:
-  // With the mirror:
-  // if no detectors in the middle...then the simulation is standard as below and interference occurs.
-  // if one detector in the middle(which hit's 1/3)...but no matter if it hits, one of the paths gets knocked out and D1 and D2 don't have interference and always hit at 50%
-  // if two detectors in the middle (which hit 50% each)....then still one path gets knocked out and D1 and D2 don't have interference and always hit at 50%
-  // With NO mirror:
-  // if no detectors in the middle...then the simulation is standard as below.
-  // if one detector in the middle(which hit's 1/2)...but no matter if it hits, one of the paths gets knocked out and D1 and D2 don't have interference and always hit at 50%
-  // if two detectors in the middle (which hit 50% each)....then still one path gets knocked out and D1 and D2 don't have interference and always hit at 50%
-  
-  
-  
-  if (fire)
-  {
-    detectorAOn = false;
-    detectorBOn = false;
-    useBluePathOnly = false;
-    useRedPathOnly = false;
-  
-    if (numberOfMiddleDetectors > 0 && start)
-    {
-      float middleR = random();
-      
-      if (numberOfMiddleDetectors == 2)
-      {    
-        if (middleR < 0.5 ) // because the path to both D1 and D2 is blocked.
-        {
-          detectorAOn = true;
-          useBluePathOnly = true;
-        }
-        else
-        {
-          detectorBOn = true;
-          useRedPathOnly = true;
-        }
-      }
-      
-      if (numberOfMiddleDetectors == 1)
-      { 
-        if (useMirror)
-        {      
-          if (middleR < 0.333333) // because have 3 detectors (including D1 and D2)
-          {
-            if (useDetectorA) {detectorAOn = true; useBluePathOnly = true;}
-            if (useDetectorB) {detectorBOn = true; useRedPathOnly = true;}
-          }
-          else
-          {
-            if (useDetectorA) {useRedPathOnly = true;}
-            if (useDetectorB) {useBluePathOnly = true;}
-          }
-        }
-        else
-        {
-          if (middleR < 0.5 ) // because the path to one of the other D1 or D2 is blocked.
-          {
-            if (useDetectorA) {detectorAOn = true; useBluePathOnly = true;}
-            if (useDetectorB) {detectorBOn = true; useRedPathOnly = true;}
-          }
-          else
-          {
-            if (useDetectorA) {useRedPathOnly = true;}
-            if (useDetectorB) {useBluePathOnly = true;}
-          }
-        }
-      }
-    }
-  }
-  
-  
-  
-  //detectorAOn = false;
-  //detectorBOn = true;
-  //useBluePathOnly = false;
-  //useRedPathOnly = true;
-  
-  
   /////////////////////////////////////////////////////
   // possible vectors to detectors 1 and 2 when mirror there
   PVector d1v1 = new PVector(0, 1);
@@ -364,11 +154,11 @@ void draw()
   
   // 1. shrink to the 2 possible outcomes with 2 paths (if mirror is there);
   // see in Evernote: 'Quantum Physics - Two Slit Experiment'
-  d1v1.div(sqrt(2)); if(numberOfMiddleDetectors == 0) d1v1.div(2);
-  d1v2.div(sqrt(2)); if(numberOfMiddleDetectors == 0) d1v2.div(2);
+  d1v1.div(sqrt(2)); d1v1.div(2);
+  d1v2.div(sqrt(2)); d1v2.div(2);
   
-  d2v1.div(sqrt(2)); if(numberOfMiddleDetectors == 0) d2v1.div(2);
-  d2v2.div(sqrt(2)); if(numberOfMiddleDetectors == 0) d2v2.div(2);
+  d2v1.div(sqrt(2)); d2v1.div(2);
+  d2v2.div(sqrt(2)); d2v2.div(2);
   
   // 1. shrink to the 2 possible outcomes  with 1 path(if mirror is not there);
   // see in Evernote: 'Quantum Physics - Two Slit Experiment'
@@ -380,7 +170,24 @@ void draw()
   int d1x = 80+detectorDistance;
   int d2y = -40-detectorDistance;
   
-
+  fire = false;
+  
+  if (start)
+  {
+  
+    stroke(255, 190, 0);
+    strokeWeight(1);
+    line(-85,60, -70, 60 + -20);
+    line(-85,60, -70, 60 + -10);
+    line(-85,60, -70, 60 + 10);
+    line(-85,60, -70, 60 + 20);
+  
+    if (fast) fire = true;
+    else
+    {
+      if (frameCount % 10 == 0) fire = true;
+    }
+  }
   
   if (fire)
   {
@@ -558,30 +365,11 @@ void draw()
     // add vectors
     if (useMirror)
     {
-      if (useBluePathOnly)
-      {
-        d1v0 = d1v1;
-        d2v0 = d2v1;
-      }
-      else if (useRedPathOnly )
-      {
-        d1v0 = d1v2;
-        d2v0 = d2v2;
-      }
-      else
-      {
-        d1v0 = d1v1;
-        d1v0.add(d1v2);
-        
-        d2v0 = d2v1;
-        d2v0.add(d2v2);
-      }
-    }
-    else
-    {
-      d1v0 = d1v0;
+      d1v0 = d1v1;
+      d1v0.add(d1v2);
       
-      d2v0 = d2v0;
+      d2v0 = d2v1;
+      d2v0.add(d2v2);
     }
     // else use the normal v0's
     
@@ -615,19 +403,8 @@ void draw()
     //text(d1p, 0, -50);
     //text(d2p, 0, -40);
     
-    if (useBluePathOnly)
-    {
-      detector2On = false;
-    }
-    else if (useRedPathOnly)
-    {
-      detector2On = true;
-    }
-    else
-    {
-      if (r < d2p) detector2On = true;
-      else detector2On = false;
-    }
+    if (r < d2p) detector2On = true;
+    else detector2On = false;
     
     
     if (graph && fire)
@@ -654,8 +431,7 @@ void draw()
   
   
   // now pick the detector based on the probability.
-  //useRedPathOnly = true;
-  //useBluePathOnly = true;
+  
   
   color r = color(255, 50, 80);
   color b = color(190, 190, 255);
@@ -665,19 +441,19 @@ void draw()
   stroke(255,120,120);
   line(-100,60,-20,60);
   stroke(b);
-  if(!useRedPathOnly) line(-20,60,-20,0);
+  line(-20,60,-20,0);
   stroke(r);
-  if(!useBluePathOnly) line(-20,60,40,60);
+  line(-20,60,40,60);
   
   if (useMirror)
   {
     stroke(b);
-    if(!useRedPathOnly) line(-20,0,40,0);
+    line(-20,0,40,0);
     stroke(255,120,255);
     line(40,0,d1x,0);
     
     stroke(r);
-    if(!useBluePathOnly) line(40,60,40,0);
+    line(40,60,40,0);
     stroke(255,120,255);
     line(40,0,40,d2y);
     
@@ -685,15 +461,15 @@ void draw()
   else
   {
     stroke(b);
-    if(!useRedPathOnly) line(-20,0,d1x,0);
+    line(-20,0,d1x,0);
     
     stroke(r);
-    if(!useBluePathOnly) line(40,60,40,d2y);
+    line(40,60,40,d2y);
   }
   
   textAlign(CENTER, CENTER);
   
-  drawLazer(-100,60, fire);
+  drawLazer(-100,60);
   
   if (!firstMirrorBackReflect)
   {
@@ -705,29 +481,10 @@ void draw()
   }
   
   
-  
-  
-  if(useDetectorA) {drawMiddleDetector(-20, 25 ,0, fire && detectorAOn); fill(190); text("DA", -40, 30);}
-  if(useDetectorB) {drawMiddleDetector(10, 60 ,PI/2, fire && detectorBOn); fill(190); text("DB", 5, 78);}
-  
-  //////////
-  //if(fire && detectorAOn) temp1 +=1;
-  //////////
-  
-  
-  
   drawFullMirror(-20, 0, 3*PI/4);
   drawFullMirror(40, 60, -PI/4.0);
-  drawDetector(d1x,0,-PI/2.0, fire && !detector2On); 
-  drawDetector(40,d2y,PI, fire && detector2On);
-  
-  //////////
-  //if (fire && !detector2On) temp2 +=1;
-  //fill(0);
-  //text(temp1, 0, 0);
-  //text(temp2, 0, 20);
-  //////////
-  
+  drawDetector(d1x,0,-PI/2.0, start && !detector2On); 
+  drawDetector(40,d2y,PI, start && detector2On);
   if (useMirror) 
   {
     if (secondMirrorBackReflect)
@@ -784,13 +541,13 @@ void draw()
   }
 }
 
-void drawLazer(int x, int y, boolean fire)
+void drawLazer(int x, int y)
 {
   pushMatrix();
   
   translate(x,y);
   
-  stroke(0); strokeWeight(1); if (fire) fill(255,255,0); else fill(100, 100, 0);
+  stroke(0); strokeWeight(1); fill(255,255,0);
   rectMode(CENTER);
   rect(0, 0, 30, 10);
   
@@ -844,21 +601,6 @@ void drawDetector(int x, int y, float a, boolean detectorOn)
   rect(0, 0, 20, 4);
   stroke(0); strokeWeight(1); 
   if (detectorOn) fill(255,255,0); else fill(90,90,90);
-  rect(0, 4, 20, 8);
-  
-  popMatrix();
-}
-
-void drawMiddleDetector(int x, int y, float a, boolean detectorOn)
-{
-  pushMatrix();
-  
-  translate(x,y);
-  rotate(a);
-  
-  rectMode(CENTER);
-  stroke(90); strokeWeight(1); fill(255);
-  if (detectorOn) fill(255,255,0); else fill(90);
   rect(0, 4, 20, 8);
   
   popMatrix();

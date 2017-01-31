@@ -1,24 +1,16 @@
 Container c1;
 Button bStart;
 Button bFast;
-LabelBox bFirstMirror;
-Button bFirstMirrorBackReflect;
 Button bSecondMirror;
-Button bSecondMirrorBackReflect;
 Button bGraph;
 ScrollBar s1;
 //TextBox t1;
-
+LabelBox l1;
 //KeyboardContainer kbContainer;
 //KeyboardCtrl kbctrl1;
 
-Button bDetectorA;
-Button bDetectorB;
-
 Container c2;
-LabelBox l2;
 ScrollBar s2;
-LabelBox l3;
 ScrollBar s3;
 
 void setupUI()
@@ -41,31 +33,18 @@ void setupUI()
     
     setContainer(c1);
     bStart = addButton(.012, .1, .12, .35, "Start");
-    
-    bFirstMirror = addLabelBox(0.18, 0.1, .12, .25, "Mirror1");
-    bFirstMirrorBackReflect = addButton(.18, .4, .12, .2, "B-Reflect");
-    
-    bSecondMirror = addButton(.32, .1, .12, .25, "Mirror2");
-    bSecondMirrorBackReflect = addButton(.32, .4, .12, .2, "B-Reflect");
-    bSecondMirrorBackReflect.isVisible = false;
-    bSecondMirrorBackReflect.isOn = true;
-    
-    bGraph = addButton(.46, .1, .12, .35, "Graph");
+    bSecondMirror = addButton(.2, .1, .12, .35, "Mirror");
+    bGraph = addButton(.4, .1, .12, .35, "Graph");
     bFast = addButton(.595, .1, .12, .35, "Fast");
     s1 = addScrollBar(0.012, 0.6, .7, .31, 0, 59, 0);
     
-    
-    bDetectorA = addButton(.74, .1, .1, .35, "DA");
-    bDetectorB = addButton(.74, .6, .1, .35, "DB");
-    
-    
-    c2 = addContainer(0.85, 0, 0.5, 0.95);
+    c2 = addContainer(0.75, 0, 0.6, 0.95);
     setContainer(c2);
-    l2 = addLabelBox(0.05, 0.1, .4, .31, "Reflect");
-    s2 = addScrollBar(0.05, 0.6, .4, .31, 0, PI*2, PI);
+    l1 = addLabelBox(0.05, 0.1, .4, .31, "Reflect");
+    s2 = addScrollBar(0.05, 0.6, .4, .31, 0, PI*4, PI*2);
     
-    l3 = addLabelBox(0.55, 0.1, .4, .31, "Through");
-    s3 = addScrollBar(0.55, 0.6, .4, .31, 0, PI*2, 0.085);
+    l1 = addLabelBox(0.55, 0.1, .4, .31, "Through");
+    s3 = addScrollBar(0.55, 0.6, .4, .31, 0, .3, 0.085);
     
     
     //t1 = addTextBox(.012, .48, .76, .2, "");
@@ -117,24 +96,10 @@ void processUI()
     bStart.isOn = start;
   }
   
-  if (bFirstMirrorBackReflect != null && bFirstMirrorBackReflect.doProcess == true) 
-  {
-    firstMirrorBackReflect = !firstMirrorBackReflect;
-    bFirstMirrorBackReflect.isOn = firstMirrorBackReflect;
-  }
-  
   if (bSecondMirror != null && bSecondMirror.doProcess == true) 
   {
     useMirror = !useMirror;
     bSecondMirror.isOn = useMirror;
-    
-    bSecondMirrorBackReflect.isVisible = bSecondMirror.isOn;
-  }
-  
-  if (bSecondMirrorBackReflect != null && bSecondMirrorBackReflect.doProcess == true) 
-  {
-    secondMirrorBackReflect = !secondMirrorBackReflect;
-    bSecondMirrorBackReflect.isOn = secondMirrorBackReflect;
   }
   
   if (bGraph != null && bGraph.doProcess == true) 
@@ -149,21 +114,6 @@ void processUI()
     bFast.isOn = fast;
   }
   
-  
-  if (bDetectorA != null && bDetectorA.doProcess == true) 
-  {
-    useDetectorA = !useDetectorA;
-    bDetectorA.isOn = useDetectorA;
-  }
-  
-  if (bDetectorB != null && bDetectorB.doProcess == true) 
-  {
-    useDetectorB = !useDetectorB;
-    bDetectorB.isOn = useDetectorB;
-  }
-  
-  
-  
   if (s1 != null && s1.doProcess == true) 
   {
     detectorDistance = (int) s1.curV;
@@ -171,13 +121,12 @@ void processUI()
   
   if (s2 != null && s2.doProcess == true) 
   {
-    Front_reflect = (float) s2.curV;
+    reflect = (float) s2.curV;
   }
   
   if (s3 != null && s3.doProcess == true) 
   {
     through = (float) s3.curV;
-    Back_reflect = through + through;
   }
 }
 
