@@ -95,3 +95,4 @@ addEvent(2016, 10, 26, "E2", "xTalk - TR4 - Mark Gasiorowski - Stellar Astronomy
 addEvent(2016, 11, 14, "E2", "xTalk - TR3 -Scott Gibbs - Cool Algorithms");
 addEvent(2016, 12, 7, "E2", "xTalk - TR3 - Jamie Venning - Compilers");
 addEvent(2017, 1, 8, "E1", "Bimal and Ashanthi");
+addEvent(2017, 3, 3, "E1", "Hack Day 5");
