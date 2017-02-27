@@ -59,10 +59,6 @@ addEvent(2017, 2, 21, "H", "");
 addEvent(2017, 2, 22, "H", "");
 addEvent(2017, 2, 23, "H", "");
 addEvent(2017, 2, 24, "H", "");
-addEvent(2017, 4, 18, "H", "Sue Jacob Nick from England");
-addEvent(2017, 4, 19, "H", "");
-addEvent(2017, 4, 20, "H", "");
-addEvent(2017, 4, 21, "H", "");
 addEvent(2017, 4, 24, "H", "");
 
 // Events
@@ -97,3 +93,4 @@ addEvent(2016, 11, 14, "E2", "xTalk - TR3 -Scott Gibbs - Cool Algorithms");
 addEvent(2016, 12, 7, "E2", "xTalk - TR3 - Jamie Venning - Compilers");
 addEvent(2017, 1, 8, "E1", "Bimal and Ashanthi");
 addEvent(2017, 3, 3, "E1", "Hack Day 5");
+addEvent(2017, 4, 15, "E1", "Sue Jacob Nick from England");
