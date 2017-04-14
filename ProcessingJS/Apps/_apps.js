@@ -5,6 +5,7 @@
 
 var apps = 
 [
+{id:'MatrixTransformation', name:'Matrix Transformation', path:'../0_Sandbox/MatrixTransformation', alts:['one'] },
 {id:'LengthContraction', name:'Length Contraction', path:'../0_Sandbox/LengthContraction', alts:['one'] },
 {id:'PathIntegral', name:'Path Integral', path:'../0_Sandbox/PathIntegral', alts:['one'] },
 {id:'GravityLens', name:'Gravity Lens', path:'../0_Sandbox/GravityLens', alts:['one'] },
