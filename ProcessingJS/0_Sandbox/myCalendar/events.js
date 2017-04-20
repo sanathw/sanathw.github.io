@@ -94,3 +94,6 @@ addEvent(2016, 12, 7, "E2", "xTalk - TR3 - Jamie Venning - Compilers");
 addEvent(2017, 1, 8, "E1", "Bimal and Ashanthi");
 addEvent(2017, 3, 3, "E1", "Hack Day 5");
 addEvent(2017, 4, 15, "E1", "Sue Jacob Nick from England");
+addEvent(2017, 5, 14, "E1", "Mothers Day");
+addEvent(2017, 5, 26, "E1", "Kate Glenn Tivoli 7pm");
+
