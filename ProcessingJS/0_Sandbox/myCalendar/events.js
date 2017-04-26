@@ -60,6 +60,10 @@ addEvent(2017, 2, 22, "H", "");
 addEvent(2017, 2, 23, "H", "");
 addEvent(2017, 2, 24, "H", "");
 addEvent(2017, 4, 24, "H", "");
+addEvent(2017, 10, 3, "H", "");
+addEvent(2017, 10, 4, "H", "");
+addEvent(2017, 10, 5, "H", "");
+addEvent(2017, 10, 6, "H", "");
 
 // Events
 addEvent(2016, 2, 21, "E1", "Mormons 6pm");
