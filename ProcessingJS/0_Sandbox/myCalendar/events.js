@@ -33,6 +33,17 @@ addEvent(2017, 12, 26, "P", "Boxing Day");
 addEvent(2018, 1, 1, "P", "New Year's Day");
 addEvent(2018, 1, 26, "P", "Australia Day");
 
+// school days
+// http://education.qld.gov.au/public_media/calendar/holidays.html
+//addEventRange(2017, 1, 23, 2017, 3, 31, "E", "School");
+addEventRange(2017, 4, 1, 2017, 4, 17, "E", "School Holiday");
+//addEventRange(2017, 4, 18, 2017, 6, 23, "E", "School");
+addEventRange(2017, 6, 24, 2017, 7, 9, "E", "School Holiday");
+//addEventRange(2017, 7, 10, 2017, 9, 15, "E", "School");
+addEventRange(2017, 9, 16, 2017, 10, 2, "E", "School Holiday");
+//addEventRange(2017, 10, 3, 2017, 12, 8, "E", "School");
+addEventRange(2017, 12, 9, 2087, 1, 1, "E", "School Holiday");
+
 
 // Applied for Holidays
 addEvent(2016, 1, 25, "H", "");
@@ -100,4 +111,5 @@ addEvent(2017, 3, 3, "E1", "Hack Day 5");
 addEvent(2017, 4, 15, "E1", "Sue Jacob Nick from England");
 addEvent(2017, 5, 14, "E1", "Mothers Day");
 addEvent(2017, 5, 26, "E1", "Kate Glenn Tivoli 7pm");
+
 

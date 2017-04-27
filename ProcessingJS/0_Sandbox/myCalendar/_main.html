@@ -10,6 +10,11 @@
         var date = new Date(year, month-1, day);
         date.setHours(0,0,0,0);
         
+        addEventDate(date, type, text);
+      }
+      
+      function addEventDate(date, type, text)
+      {
         if (type == "R")
         {
           date.setYear(0);
@@ -23,6 +28,41 @@
         {
           eventsMoment[date] = {type: type, text:text};
         }
+      }
+      
+      function addEventRange(year1, month1, day1, year2, month2, day2, type, text)
+      {
+        //console.log(day1);
+        var date1 = new Date(year1, month1-1, day1);
+        date1.setHours(0,0,0,0);
+        //console.log(date1.getUTCDate());
+        
+        var date2 = new Date(year2, month2-1, day2);
+        date2.setHours(0,0,0,0);
+        
+        var start = true;
+        
+        while (date1.getTime() <= date2.getTime())
+        {
+          var rangeText = "";
+          
+          if (start == true) rangeText = rangeText + "[START:" + text +"]";
+          if (date1.getTime() == date2.getTime()) rangeText = rangeText + "[END:" + text +"]";
+          
+          //console.log("" + (date1.getUTCFullYear()) + " " + (date1.getUTCMonth()+1) + " " + date1.getDate()+1);
+          
+          addEventDate(date1, type, rangeText);
+          //addEvent(date1.getUTCFullYear(), date1.getUTCMonth()+1, date1.getUTCDate()+1, type, rangeText);
+          start = false;
+          
+          var tempDate = new Date(date1);
+          tempDate.setDate(tempDate.getDate() + 1);
+          
+          date1 = tempDate;
+          //date1.setDate(date1.getDate() + 1);
+          //console.log(date1.getDate());
+        }
+        
       }
       
       
