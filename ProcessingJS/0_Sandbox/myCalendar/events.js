@@ -42,7 +42,7 @@ addEventRange(2017, 6, 24, 2017, 7, 9, "E", "School Holiday");
 //addEventRange(2017, 7, 10, 2017, 9, 15, "E", "School");
 addEventRange(2017, 9, 16, 2017, 10, 2, "E", "School Holiday");
 //addEventRange(2017, 10, 3, 2017, 12, 8, "E", "School");
-addEventRange(2017, 12, 9, 2087, 1, 1, "E", "School Holiday");
+addEventRange(2017, 12, 9, 2018, 1, 1, "E", "School Holiday");
 
 
 // Applied for Holidays
@@ -71,10 +71,11 @@ addEvent(2017, 2, 22, "H", "");
 addEvent(2017, 2, 23, "H", "");
 addEvent(2017, 2, 24, "H", "");
 addEvent(2017, 4, 24, "H", "");
-addEvent(2017, 10, 3, "H", "");
+addEvent(2017, 10, 3, "H", "Annual Leave");
 addEvent(2017, 10, 4, "H", "");
 addEvent(2017, 10, 5, "H", "");
 addEvent(2017, 10, 6, "H", "");
+addEventRange(2017, 12, 27, 2018, 1, 19, "H", "Annual Leave");
 
 // Events
 addEvent(2016, 2, 21, "E1", "Mormons 6pm");
