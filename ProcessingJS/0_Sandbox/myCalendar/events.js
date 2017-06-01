@@ -76,7 +76,7 @@ addEvent(2017, 10, 4, "H", "");
 addEvent(2017, 10, 5, "H", "");
 addEvent(2017, 10, 6, "H", "");
 addEventRange(2017, 12, 27, 2018, 1, 19, "H", "Annual Leave");
-addEventRange(2018, 2, 19, 2018, 2, 23, "H", "Annual Leave Gold Coast");
+addEventRange(2018, 2, 19, 2018, 2, 23, "H", "Annual Leave Gold Coast"); // APPLIED FOR
 
 // Events
 addEvent(2016, 2, 21, "E1", "Mormons 6pm");
