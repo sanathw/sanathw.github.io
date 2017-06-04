@@ -1,8 +1,12 @@
 //Container c1;
-//Button b1;
-//ScrollBar s1;
+Button b1;
+Button b2;
+Button b3;
+ScrollBar s1;
+ScrollBar s2;
 //TextBox t1;
-//LabelBox l1;
+LabelBox l1;
+LabelBox l2;
 //KeyboardContainer kbContainer;
 //KeyboardCtrl kbctrl1;
 
@@ -24,10 +28,14 @@ void setupUI()
     // add buttons to tab
     
     //setContainer(c1);
-    //b1 = addButton(.012, .1, .12, .31, "Triangle");
-    //s1 = addScrollBar(0.012, 0.4, .7, .31, 0, 100, 50);
+    b1 = addButton(.012, .1, .2, .4, "Background");
+    b2 = addButton(.3, .1, .2, .4, "Color");
+    b3 = addButton(.6, .1, .2, .4, "Gradient");
+    s1 = addScrollBar(0.1, 0.6, .3, .31, 1, 500, 500);
+    s2 = addScrollBar(0.5, 0.6, .3, .31, 0, 0.5, 0.1);
     //t1 = addTextBox(.012, .48, .76, .2, "");
-    //l1 = addLabelBox(.8, .8, .1, .15, "24");
+    l1 = addLabelBox(.012, .6, .1, .31, "Stars");
+    l2 = addLabelBox(.4, .6, .1, .31, "Speed");
     //kbContainer = addKeyboardContainer(.14, .78, .632, .2);
     //kbctrl1 = addKeyboardCtrl(0, 0, 1, 1, null);
     //kbctrl1.addLine("1234567890");
@@ -69,7 +77,33 @@ void setupUI()
 
 void processUI()
 {
-  //if (b1 != null && b1.doProcess == true) {}
+  if (b1 != null && b1.doProcess == true) 
+  {
+    showBackground = !showBackground;
+    b1.isOn = showBackground;
+  }
+  
+  if (b2 != null && b2.doProcess == true) 
+  {
+    showColor = !showColor;
+    b2.isOn = showColor;
+  }
+  
+  if (b3 != null && b3.doProcess == true) 
+  {
+    showGradient = !showGradient;
+    b3.isOn = showGradient;
+  }
+  
+  if (s1 != null && s1.doProcess == true) 
+  {
+    showStars = s1.curV;
+  }
+  
+  if (s2 != null && s2.doProcess == true) 
+  {
+    speed = s2.curV;
+  }
 }
 
 

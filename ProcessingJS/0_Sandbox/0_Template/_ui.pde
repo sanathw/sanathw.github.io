@@ -44,6 +44,7 @@ void setupUI()
     //t.isCaseSensistive = false;
     //kbctrl.isContinous = false;
     //s.setRange(minV, maxV, curV);
+    //s.curV;
   }
   
   resetData();
