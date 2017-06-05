@@ -1,0 +1,140 @@
+<html>
+<head>
+
+<script>
+  //  http://localhost:5050/0_Sandbox/SoundTracker/testSound.html
+
+  // create web audio api context
+  var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  
+  function PlayTone()
+  {
+    // create Oscillator node
+    var oscillator = audioCtx.createOscillator();
+    oscillator.type = 'square';
+    oscillator.frequency.value = 440; // value in hertz
+    oscillator.connect(audioCtx.destination);
+    oscillator.start();
+  }
+  
+
+  function playSound(buffer) 
+  {
+    var source = audioCtx.createBufferSource(); // creates a sound source
+    source.buffer = buffer;                    // tell the source which sound to play
+    source.connect(audioCtx.destination);       // connect the source to the context's destination (the speakers)
+    source.start(0);                           // play the source now
+                                               // note: on older systems, may have to use deprecated noteOn(time);
+  }
+  
+  function PlaySoundFile()
+  {
+    var request = new XMLHttpRequest();
+    request.open('GET', "/0_Sandbox/SoundTracker/bass.wav", true);
+    //request.open('GET', "/bass.wav", true);
+    request.responseType = 'arraybuffer';
+    
+    
+    request.onload = function() 
+    {
+      /* Put the modulated audio data into the audioData variable */ 
+      var audioData = request.response;
+      alert("A");
+      //println(audioData.length);
+      //var v1 = audioData.toString('hex');
+      //alert(v1);
+      
+      //audioRouting(audioData);
+      
+      audioCtx.decodeAudioData(audioData, function(buffer) {playSound(audioData); }, onError);
+      
+      /*if (audioData) { 
+        var byteArray = new Uint8Array(audioData);
+        println(byteArray.length);
+        playSound(byteArray);
+        //audioCtx.decodeAudioData(byteArray, function(buffer) {println("hello"); dogBarkingBuffer = buffer; playSound(dogBarkingBuffer); }, onError);
+        }*/
+    };
+  }
+
+ 
+  
+  //PlayTone();
+  //PlaySoundFile();
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  var audioContext = new(window.AudioContext || window.webkitAudioContext)();
+  var sampleBuffer;
+  var sampleURL = './bass.wav';// 'https://dl.dropboxusercontent.com/s/47hgqffhjcsli6r/dinky-jam.mp3';
+  var sound;
+  
+  // function to load sounds via AJAX
+function loadSound(url) {
+    var request = new XMLHttpRequest();
+    request.open('GET', url, true);
+    request.responseType = 'arraybuffer';
+
+    request.onload = function () {
+        audioContext.decodeAudioData(request.response, function (buffer) {
+            var soundLength = buffer.duration;
+            sampleBuffer = buffer;
+            //loopStart.setAttribute('max', Math.floor(soundLength));
+            //loopEnd.setAttribute('max', Math.floor(soundLength));
+            //playButton.disabled = false;
+            //playButton.innerHTML = 'play';
+        });
+    };
+
+    request.send();
+}
+
+// set our sound buffer, loop, and connect to destination
+function setupSound() {
+    sound = audioContext.createBufferSource();
+    sound.buffer = sampleBuffer;
+    //sound.loop = loop;
+    //sound.loopStart = loopStart.value;
+    //sound.loopEnd = loopEnd.value;
+    //sound.detune.value = -1000;
+    //sound.playbackRate.value = playbackSlider.value;
+    sound.connect(audioContext.destination);
+}
+
+// play sound and enable / disable buttons
+function playSound() {
+    setupSound();
+    //UI('play');
+    sound.start(0);
+    sound.onended = function () {
+        //UI('stop');
+    }
+}
+// stop sound and enable / disable buttons
+function stopSound() {
+    //UI('stop');
+    sound.stop(0);
+}
+
+loadSound(sampleURL);
+
+  
+</script>
+
+</head>
+
+<body>
+Hello
+<button onclick="playSound();">Play</button>
+<button onclick="PlaySoundFile();">Play Me</button>
+</body>
+
+</html>

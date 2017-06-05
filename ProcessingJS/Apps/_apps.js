@@ -5,6 +5,7 @@
 
 var apps = 
 [
+{id:'SoundTracker', name:'SoundTracker', path:'../0_Sandbox/SoundTracker', alts:['one'] },
 {id:'Starfield', name:'Starfield', path:'../0_Sandbox/Starfield', alts:['one'] },
 {id:'MatrixTransformation', name:'Matrix Transformation', path:'../0_Sandbox/MatrixTransformation', alts:['one'] },
 {id:'LengthContraction', name:'Length Contraction', path:'../0_Sandbox/LengthContraction', alts:['one'] },

@@ -1,5 +1,10 @@
 // http://localhost:5050/0_Sandbox/TestTemplate/main.html
 //.......................................................................
+
+// https://www.youtube.com/watch?v=pZ1-YhuJkX8
+// Fourth Doctor Titles Version 2 - Doctor Who - BBC
+// "C:\Sanath\Video\Fourth Doctor Titles Version 2 - Doctor Who - BBC.mp4"
+
 const MAX_DEPTH = 32;
 const STARS = 500;
 var starBackground = [];
@@ -60,13 +65,17 @@ void draw()
     
     
     var c3 = c;
-    if (speed <= 0.1)  c3 = (int) (c/map(speed,0, 0.1, 3, 1));
+    if (speed <= 0.1)  c3 = (int) (c/map(speed,0, 0.1, 4, 1));
+    
+    var n3 = n;
+    if (speed <= 0.1)  n3 = (int) (c/map(speed,0, 0.1, 1, 4));
     
     if (showColor)
     {
-      drawStar(star[i].x, star[i].y, star[i].z-(speed*4), color(255,n,n, c3));
-      drawStar(star[i].x, star[i].y, star[i].z-(speed*2), color(n,255,n, c3));
-      drawStar(star[i].x, star[i].y, star[i].z, color(n,n,255, c3));
+      drawStar(star[i].x, star[i].y, star[i].z-(speed*4), color(255,n3,n3, c3));
+      drawStar(star[i].x, star[i].y, star[i].z-(speed*3), color(255,255,n3, c3));
+      drawStar(star[i].x, star[i].y, star[i].z-(speed*2), color(n,255,n3, c3));
+      drawStar(star[i].x, star[i].y, star[i].z, color(n3,n3,255, c3));
     }
     else
     {
@@ -77,8 +86,11 @@ void draw()
 
 void drawStar(float star_x, float star_y, float star_z, color c1)
 {
+  //var t = ((1 - (star_z / MAX_DEPTH)) * 30);
+
+
   var p = 15 / star_z;
-  int x = (int) (star_x * p);
+  int x = (int) (star_x * p);// to curve -300+(t*t);
   int y = (int) (star_y * p);
   var s = (int) ((1 - (star_z / MAX_DEPTH)) * 5);
   //var c = (int) ((1 - (star_z / MAX_DEPTH)) * 255);
