@@ -1,0 +1,67 @@
+<html>
+<head>
+
+<script>
+  //  http://localhost:5050/0_Sandbox/SoundTracker/testSound-simple-HttpRequest.html
+
+  var audioContext = new(window.AudioContext || window.webkitAudioContext)();
+  var sampleURL = './bass.wav';// 'https://dl.dropboxusercontent.com/s/47hgqffhjcsli6r/dinky-jam.mp3';
+  var sound;
+  
+  // function to load sounds via AJAX
+  function loadSound(url) 
+  {
+    var request = new XMLHttpRequest();
+    request.open('GET', url, true);
+    request.responseType = 'arraybuffer';
+
+    request.onload = function () 
+    {
+        audioContext.decodeAudioData(request.response, function (buffer) {setupSound(buffer); /*var soundLength = buffer.duration;*/});
+        //audioContext.decodeAudioData(request.response).then(function (buffer) {setupSound(buffer); /*var soundLength = buffer.duration;*/});
+    };
+
+    request.send();
+  }
+  loadSound(sampleURL);
+
+  function setupSound(sampleBuffer) 
+  {
+      sound = audioContext.createBufferSource();
+      sound.buffer = sampleBuffer;
+      
+      
+      var nowBuffering = sampleBuffer.getChannelData(0);
+      alert(nowBuffering.byteLength);
+      for (var i = 0; i < (nowBuffering.byteLength / 40); i++) 
+      {
+         // Math.random() is in [0; 1.0]
+         // audio needs to be in [-1.0; 1.0]
+         //nowBuffering[i] = Math.random() * 2 - 1;
+         nowBuffering[i] = Math.sin(i/10); // PLAY A TONE FOR A SHORT WHILE THEN THE MUSIC
+      }
+      
+      sound.connect(audioContext.destination)
+  }
+
+  function playSound() 
+  {
+      sound.onended = function () {}
+      sound.start(0);
+  }
+
+  function stopSound() 
+  {
+      sound.stop(0);
+  }
+  
+</script>
+
+</head>
+
+<body>
+Hello
+<button onclick="playSound();">Play</button>
+</body>
+
+</html>

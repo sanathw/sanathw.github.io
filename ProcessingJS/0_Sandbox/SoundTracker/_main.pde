@@ -13,9 +13,10 @@
 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
 var audioContext = new(window.AudioContext || window.webkitAudioContext)();
-var sampleBuffer;
+var sampleBuffer = null;
 var sampleURL = './_resources/DrWho.m4a' ;// './bass.wav';// 'https://dl.dropboxusercontent.com/s/47hgqffhjcsli6r/dinky-jam.mp3';
 var sound;
+var played = false;
 
 void setup()
 {
@@ -42,7 +43,7 @@ void draw()
   rect(x, y, 5, 5);
   
   //println(frameCount);
-  if (frameCount == 100) playSound();
+  if (frameCount > 10 && sampleBuffer != null && played == false) {played =true; playSound();}
 }
 
 

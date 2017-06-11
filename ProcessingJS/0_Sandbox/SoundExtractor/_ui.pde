@@ -1,13 +1,8 @@
 //Container c1;
 Button b1;
-Button b2;
-Button b3;
-Button bMusic;
-ScrollBar s1;
-ScrollBar s2;
+//ScrollBar s1;
 //TextBox t1;
-LabelBox l1;
-LabelBox l2;
+//LabelBox l1;
 //KeyboardContainer kbContainer;
 //KeyboardCtrl kbctrl1;
 
@@ -29,15 +24,10 @@ void setupUI()
     // add buttons to tab
     
     //setContainer(c1);
-    b1 = addButton(.012, .1, .2, .4, "Background");
-    b2 = addButton(.3, .1, .2, .4, "Color");
-    b3 = addButton(.6, .1, .2, .4, "Gradient");
-    bMusic = addButton(.82, .1, .12, .8, "Music");
-    s1 = addScrollBar(0.1, 0.6, .3, .31, 1, 500, 500);
-    s2 = addScrollBar(0.5, 0.6, .3, .31, 0, 0.5, 0.1);
+    b1 = addButton(.012, .1, .5, .5, "Play");
+    //s1 = addScrollBar(0.012, 0.4, .7, .31, 0, 100, 50);
     //t1 = addTextBox(.012, .48, .76, .2, "");
-    l1 = addLabelBox(.012, .6, .1, .31, "Stars");
-    l2 = addLabelBox(.4, .6, .1, .31, "Speed");
+    //l1 = addLabelBox(.8, .8, .1, .15, "24");
     //kbContainer = addKeyboardContainer(.14, .78, .632, .2);
     //kbctrl1 = addKeyboardCtrl(0, 0, 1, 1, null);
     //kbctrl1.addLine("1234567890");
@@ -54,6 +44,7 @@ void setupUI()
     //t.isCaseSensistive = false;
     //kbctrl.isContinous = false;
     //s.setRange(minV, maxV, curV);
+    //s.curV;
   }
   
   resetData();
@@ -81,49 +72,20 @@ void processUI()
 {
   if (b1 != null && b1.doProcess == true) 
   {
-    showBackground = !showBackground;
-    b1.isOn = showBackground;
-  }
-  
-  if (b2 != null && b2.doProcess == true) 
-  {
-    showColor = !showColor;
-    b2.isOn = showColor;
-  }
-  
-  if (b3 != null && b3.doProcess == true) 
-  {
-    showGradient = !showGradient;
-    b3.isOn = showGradient;
-  }
-  
-  if (bMusic != null && bMusic.doProcess == true) 
-  {
-    if (sampleBuffer == null)
-    {
-      loadSound(sampleURL);
-    }
-    else
-    {
-      if (playState == false)
-      {
-        playSound();
-      }
-      else
-      {
-        stopSound();
-      }
-    }
-  }
-  
-  if (s1 != null && s1.doProcess == true) 
-  {
-    showStars = s1.curV;
-  }
-  
-  if (s2 != null && s2.doProcess == true) 
-  {
-    speed = s2.curV;
+  playSound();
+  //if (pjsCM == null) pjsCM = Processing.getInstanceById("ControlManager");
+  //pjsCM.noLoop();
+  //  if (pjsCM == null) pjsCM = Processing.getInstanceById("ControlManager");
+  //pjsCM.noLoop();
+  //   var x = document.createElement("INPUT");
+  //    x.setAttribute("type", "file");
+  //    document.body.appendChild(x);
+  //    x.click();
+  //var v =  document.getElementById("chooseFile");//.click();
+  //v.click();
+  //v.onClick();
+  //v.fireEvent('onclick') ;
+  //setTimeout(function() {v.dispatchEvent(new Event('click')); }, 1000);
   }
 }
 
